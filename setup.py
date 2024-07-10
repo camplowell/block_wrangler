@@ -14,9 +14,9 @@ setuptools.setup(
     description = "A developer tool for managing numerical block IDs during shader development.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    url = "package URL",
+    url = "https://github.com/camplowell/block_wrangler",
     project_urls = {
-        "Bug Tracker": "package issues URL",
+        "Bug Tracker": "https://github.com/camplowell/block_wrangler/issues",
     },
     classifiers = [
         "Programming Language :: Python :: 3",
