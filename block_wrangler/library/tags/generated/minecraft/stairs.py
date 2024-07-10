@@ -1,0 +1,55 @@
+from block_wrangler.tag import TagLibrary
+from block_wrangler.library.factories import block_types
+
+
+def load_tags(library:TagLibrary):
+	tag = library.touch('minecraft:stairs')
+	tag.add(library.touch('minecraft:wooden_stairs'))
+	
+	tag.add(block_types(
+		'minecraft:granite_stairs',
+		'minecraft:polished_tuff_stairs',
+		'minecraft:sandstone_stairs',
+		'minecraft:dark_prismarine_stairs',
+		'minecraft:polished_deepslate_stairs',
+		'minecraft:mossy_stone_brick_stairs',
+		'minecraft:stone_stairs',
+		'minecraft:mossy_cobblestone_stairs',
+		'minecraft:polished_blackstone_brick_stairs',
+		'minecraft:cobbled_deepslate_stairs',
+		'minecraft:mud_brick_stairs',
+		'minecraft:bamboo_mosaic_stairs',
+		'minecraft:polished_diorite_stairs',
+		'minecraft:purpur_stairs',
+		'minecraft:stone_brick_stairs',
+		'minecraft:smooth_quartz_stairs',
+		'minecraft:deepslate_tile_stairs',
+		'minecraft:cut_copper_stairs',
+		'minecraft:prismarine_stairs',
+		'minecraft:blackstone_stairs',
+		'minecraft:red_sandstone_stairs',
+		'minecraft:waxed_cut_copper_stairs',
+		'minecraft:brick_stairs',
+		'minecraft:tuff_stairs',
+		'minecraft:nether_brick_stairs',
+		'minecraft:smooth_sandstone_stairs',
+		'minecraft:polished_granite_stairs',
+		'minecraft:cobblestone_stairs',
+		'minecraft:quartz_stairs',
+		'minecraft:exposed_cut_copper_stairs',
+		'minecraft:polished_andesite_stairs',
+		'minecraft:diorite_stairs',
+		'minecraft:waxed_exposed_cut_copper_stairs',
+		'minecraft:polished_blackstone_stairs',
+		'minecraft:red_nether_brick_stairs',
+		'minecraft:weathered_cut_copper_stairs',
+		'minecraft:deepslate_brick_stairs',
+		'minecraft:smooth_red_sandstone_stairs',
+		'minecraft:end_stone_brick_stairs',
+		'minecraft:oxidized_cut_copper_stairs',
+		'minecraft:tuff_brick_stairs',
+		'minecraft:prismarine_brick_stairs',
+		'minecraft:andesite_stairs',
+		'minecraft:waxed_weathered_cut_copper_stairs',
+		'minecraft:waxed_oxidized_cut_copper_stairs',
+	strict=False))

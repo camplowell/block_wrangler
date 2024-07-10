@@ -1,0 +1,4 @@
+from block_wrangler.block_type import BlockType as _BT
+
+{% for block in blocks %}{{ block['name'] }} = _BT('{{ block['namespace'] }}', '{{ block['name'] }}', {{ block['properties'] }})
+{% endfor %}
