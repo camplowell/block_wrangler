@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Self, Tuple
+from typing import Collection, Dict, Iterable, List, Self, Tuple
 
 from .block_collections import Blocks, _filter_states
 from .block_type import BlockState, BlockType
@@ -141,6 +141,13 @@ class TagLibrary:
 		if tag not in self.tags:
 			self.tags[tag] = Tag(tag, self.touch(tag[:tag.rindex('/')]) if '/' in tag else None)
 		return self.tags[tag]
+	
+	def tag_progressive(self, blocks:Iterable[BlockType], parent: str, property: str, tags: Collection[str], values: Collection[str]) -> None:
+		"""Add a sequence of block states to a sequence of tags"""
+		if len(tags) != len(values):
+			raise ValueError(f"Tags and values must be the same length")
+		for tag, value in zip(tags, values):
+			self.touch(parent + '/' + tag).add(blocks, lambda state: state[property] == value)
 	
 	def __getitem__(self, tag:str) -> Blocks:
 		"""Resolve the tag to a Blocks collection"""
