@@ -5,6 +5,24 @@ from block_wrangler.library.factories import block_types
 
 def load_tags(library:TagLibrary):
 	tag = library.touch('sway')
+
+	library.touch('sway/short') \
+		.add(library.touch('minecraft:small_flowers')) \
+		.add(library.touch('minecraft:crops')) \
+		.add(library.touch('minecraft:saplings')) \
+		.add(block_types(
+			'minecraft:bamboo_sapling',
+			'minecraft:dead_bush',
+			'minecraft:fern',
+			'minecraft:pitcher_crop',
+			'minecraft:seagrass',
+			'minecraft:short_grass',
+			'minecraft:small_dripleaf',
+			'minecraft:sweet_berry_bush',
+		)) \
+		.add(block_types(
+			'minecraft:mangrove_propagule'
+		), lambda state: state.hanging == 'false')
 	
 	library.touch('sway/lower') \
 		.add(library.touch('plant'), lambda state: state.half == 'lower')
