@@ -14,6 +14,7 @@ from block_wrangler import filters as _filters
 from . import blocks as _blocks, tags as _tags
 
 _log = _getLogger(__name__)
+_blocks_cache:_tp.Dict[str, _tp.Dict[str, _BlockType]] = dict()
 
 def load_tags() -> _TagLibrary:
 	"""Returns a TagLibrary containing a collection of Vanilla and other common tags"""
@@ -34,26 +35,29 @@ def gather_blocks[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _p
 	return _Blocks((block for block in _all_blocks() if condition(block)), filter=filter, signature=signature)
 
 def block_types(*blocks:str|_BlockType , strict:bool=True) -> _tp.Iterable[_BlockType]:
+	"""Find block types by name"""
 	return (block for block_str in blocks if (block := _coerce_block_type(block_str, strict=strict)) is not None)
 
 def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState) -> _BlockFamily[T]:
 	"""Find all block types that match the condition and return them"""
 	return _BlockFamily((block for block in _all_blocks() if condition(block)), signature=signature)
 
+def register_block_type(block:_BlockType) -> None:
+	"""Register an external block type with the library, allowing it to be found by tags"""
+	namespace_contents = _block_namespace(block.namespace, strict=False, add=True)
+	if block.name in namespace_contents:
+		if block == namespace_contents[block.name]:
+			return
+		_log.warning(f'Overwriting block {block.path}')
+	namespace_contents[block.name] = block
 
 @_cache
+def _all_namespaces() -> _tp.Set[str]:
+	return {namespace.name for namespace in _iter_modules(_blocks.__path__)}
+
 def _all_blocks() -> _tp.Iterable[_BlockType]:
-	return _chain(*(_block_namespace(namespace.name).values() for namespace in _iter_modules(_blocks.__path__)))
-
-@_cache
-def _block_namespace(namespace:str, strict:bool=True) -> _tp.Dict[str, _BlockType]:
-	try:
-		namespace_module = _import_module(f'.{namespace}', _blocks.__name__)
-	except ModuleNotFoundError as e:
-		if strict:
-			raise e
-		return {}
-	return { var.name:var for var in namespace_module.__dict__.values() if isinstance(var, _BlockType) }
+	namespaces = _blocks_cache.keys() | _all_namespaces()
+	return _chain(*(_block_namespace(namespace).values() for namespace in namespaces))
 
 def _coerce_block_type(raw:str|_BlockType, strict:bool=True) -> _BlockType | None:
 	if isinstance(raw, _BlockType):
@@ -69,6 +73,18 @@ def _coerce_block_type(raw:str|_BlockType, strict:bool=True) -> _BlockType | Non
 		if strict:
 			raise
 		return None
+
+def _block_namespace(namespace:str, strict:bool=True, add:bool=False) -> _tp.Dict[str, _BlockType]:
+	if namespace not in _blocks_cache:
+		try:
+			namespace_module = _import_module(f'.{namespace}', _blocks.__name__)
+			_blocks_cache[namespace] = { var.name:var for var in namespace_module.__dict__.values() if isinstance(var, _BlockType) }
+		except ModuleNotFoundError as e:
+			if strict:
+				raise e
+			if add:
+				_blocks_cache[namespace] = dict()
+	return _blocks_cache.get(namespace, dict())
 
 def _coerce_block(raw:str|_BlockType, strict:bool=True) -> _Blocks | None:
 	if isinstance(raw, _BlockType):
