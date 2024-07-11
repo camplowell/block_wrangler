@@ -1,4 +1,4 @@
-
+from collections import Counter
 from itertools import product, chain
 from typing import AbstractSet, Collection, Iterator, Protocol, Dict, Iterable, Set, Tuple, cast, overload
 
@@ -48,6 +48,9 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 		elif default is ...:
 			raise KeyError(block)
 		return default
+	
+	def render(self) -> str:
+		return ' '.join(_render_block(block, self._get_raw(block)) for block in self.blocks())
 
 
 	def union(self, other:'BlockCollection') -> 'BlockCollection': 
@@ -121,3 +124,30 @@ class Blocks[T:BlockState](BlockCollection[T]):
 		if not isinstance(other, Blocks):
 			return False
 		return self._blocks == other._blocks
+
+def _render_block(block:BlockType, states:States) -> str:
+	num_props = len(block.properties)
+	for i, value in enumerate(block.properties.values()):
+		assert all(state[i] < len(value) for state in states)
+	if num_props == 0:
+		return block.path
+	for state_mask, (key, values) in zip(range(num_props), block.properties.items()):
+		state_counter:Counter[Tuple[int, ...]] = Counter()
+		for state in states:
+			state_counter[_mask_property(state, state_mask)] += 1
+		num_values = len(values)
+		for masked_state, count in state_counter.items():
+			assert count <= num_values
+			if count < num_values:
+				continue
+			prev_len = len(states)
+			states = {state for state in states if _mask_property(state, state_mask) != masked_state}
+			assert len(states) == prev_len - count
+			states.add(masked_state)
+	return ' '.join(_render_state(block, state) for state in states)
+
+def _mask_property(state:Tuple[int, ...], mask:int):
+	return tuple([-1 if i == mask else val for i, val in enumerate(state)])
+
+def _render_state(block:BlockType, state:Tuple[int, ...]) -> str:
+	return ':'.join([block.path, *(f'{name}={vals[val]}' for (name, vals), val in zip(block.properties.items(), state) if val != -1)])

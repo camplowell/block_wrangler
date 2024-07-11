@@ -56,7 +56,7 @@ class BlockMapping:
 		]
 		for entry in self.mapping:
 			lines.append(f"# {', '.join(entry['flags'])}")
-			lines.append(f"block.{entry['id']} = {str(entry['blocks'])}")
+			lines.append(f"block.{entry['id']} = {entry['blocks'].render()}")
 			lines.append("")
 
 		return "\n".join(lines)
