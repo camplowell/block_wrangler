@@ -43,7 +43,7 @@ def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool]
 
 @_cache
 def _all_blocks() -> _tp.Iterable[_BlockType]:
-	return _chain(*(_block_namespace(namespace).values() for namespace in _iter_modules(_blocks.__path__)))
+	return _chain(*(_block_namespace(namespace.name).values() for namespace in _iter_modules(_blocks.__path__)))
 
 @_cache
 def _block_namespace(namespace:str, strict:bool=True) -> _tp.Dict[str, _BlockType]:

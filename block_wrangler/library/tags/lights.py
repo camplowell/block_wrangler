@@ -17,7 +17,7 @@ def load_tags(library:TagLibrary):
 	library.touch('lights/fire') \
 		.add(block_types(
 			'minecraft:fire',
-			'minecrarft:torch',
+			'minecraft:torch',
 			'minecraft:wall_torch',
 			'minecraft:campfire',
 			'minecraft:lantern'
