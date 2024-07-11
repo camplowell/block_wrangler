@@ -6,7 +6,7 @@ A Python library to help Minecraft shader developers deal with block IDs.
 ### Using pip
 
 ```bash
-pip install block_wrangler
+pip install block-wrangler
 ```
 
 ### From source
