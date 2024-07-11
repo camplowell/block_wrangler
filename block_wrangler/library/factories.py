@@ -8,7 +8,7 @@ from block_wrangler.tag import TagLibrary as _TagLibrary
 from block_wrangler.block_type import BlockType as _BlockType, BlockState as _BlockState
 from block_wrangler.block_collections import Blocks as _Blocks, BlockCollection as _BlockCollection, BlockFamily as _BlockFamily
 from block_wrangler._rich_log import getLogger as _getLogger
-from block_wrangler.filters import StateFilter as _StateFilter
+from block_wrangler.filters import StateFilter as _StateFilter, passthrough as _passthrough
 from block_wrangler import filters as _filters
 
 from . import blocks as _blocks, tags as _tags
@@ -29,14 +29,14 @@ def blocks(*blocks:str|_BlockType, strict:bool=True) -> _BlockCollection:
 	"""Create a Blocks collection from the given blocks"""
 	return _reduce(lambda acc, block: acc.union(block), (block for block_str in blocks if (block := _coerce_block(block_str, strict=strict)) is not None), _Blocks(dict()))
 
-def gather_blocks[T:_BlockState](condition:_tp.Callable[[_BlockType], bool], signature:_tp.Type[T]=_BlockState, filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
+def gather_blocks[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState, filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
 	"""Find all blocks that match the condition and return them as a Blocks collection"""
 	return _Blocks((block for block in _all_blocks() if condition(block)), filter=filter, signature=signature)
 
 def block_types(*blocks:str|_BlockType , strict:bool=True) -> _tp.Iterable[_BlockType]:
 	return (block for block_str in blocks if (block := _coerce_block_type(block_str, strict=strict)) is not None)
 
-def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool], signature:_tp.Type[T]=_BlockState) -> _BlockFamily[T]:
+def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState) -> _BlockFamily[T]:
 	"""Find all block types that match the condition and return them"""
 	return _BlockFamily((block for block in _all_blocks() if condition(block)), signature=signature)
 

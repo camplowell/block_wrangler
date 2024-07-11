@@ -7,10 +7,10 @@ from .block_type import BlockState
 T = TypeVar('T', bound=BlockState)
 StateFilter = Callable[[T], bool]
 
-def passthrough(_:BlockState) -> bool:
+def passthrough(_) -> bool:
 	return True
 
-def no(_:BlockState) -> bool:
+def no(_) -> bool:
 	return False
 
 def all(*filters:StateFilter) -> StateFilter:
