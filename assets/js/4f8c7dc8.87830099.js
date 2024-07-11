@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[678],{258:e=>{e.exports=JSON.parse('{"tags":[{"label":"Announcement","permalink":"/block_wrangler/blog/tags/announcements","description":"Big news or changes in direction","count":1}]}')}}]);

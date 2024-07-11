@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"First alpha release!","permalink":"/block_wrangler/blog/alpha-blog-post","unlisted":false}]}')}}]);
