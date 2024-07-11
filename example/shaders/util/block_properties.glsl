@@ -4,12 +4,12 @@
 
 
 bool sway(int id) {
-	return id == 1002 || id == 1003;
+	return id == 1002 || id == 1001;
 }
 
 
 bool sway/bottom(int id) {
-	return id == 1002 || id == 1001;
+	return id == 1001;
 }
 
 
