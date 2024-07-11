@@ -1,0 +1,37 @@
+---
+sidebar_position: 2
+---
+# Overview
+
+## What is Block Wrangler?
+
+Block Wrangler is a Python library that helps shaderpack developers manage block IDs.
+
+It allows you to:
+- Attach boolean properties to blocks or block states that can be used in shaders
+- Easily add or remove features from your shaderpack without manually editing the block IDs
+- Guarantee that block IDs are mutually exclusive, so that shaders can be written without worrying about collisions
+
+## Core Types
+
+### Tags
+Block Wrangler uses **tags** to generate meaningful groups of blocks.
+They can be defined in terms of specific blocks, other tags, or a combination of both.
+
+Vanilla Minecraft includes a number of tags, such as `minecraft:crops` and `minecraft:logs`, which can be used to represent groups of blocks.
+
+Block Wrangler also includes a number of common tags, such as `sway` and `lights`, which can be used to kickstart your own definitions.
+
+### Mappings
+
+Block Wrangler uses **mappings** to map block types to string-based identifiers that I call flags.
+This is the only part of Block Wrangler that knows about the numerical IDs of blocks, and is used as part of the export process.
+
+### Block types
+
+A **block type** is a class that represents a specific type of block, such as `minecraft:stone` or `minecraft:oak_log`.
+Its definition includes its full name and all of its properties.
+
+### Block states
+
+A **block state** is a specific instance of a block type, such as `minecraft:oak_log:axis=y`. It includes values for all of the block's properties.
