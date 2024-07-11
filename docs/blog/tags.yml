@@ -1,0 +1,8 @@
+announcement:
+  label: Announcement
+  permalink: /announcements
+  description: Big news or changes in direction
+devlog:
+  label: Devlog
+  permalink: /devlogs
+  description: Retrospectives on the development process

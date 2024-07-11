@@ -1,0 +1,32 @@
+---
+slug: alpha-blog-post
+title: First alpha release!
+authors: [lowell]
+tags: [announcement]
+---
+
+Welcome to the first alpha release of Block Wrangler!
+
+The few of you who followed the [previous repository](https://github.com/camplowell/block_properties) might be wondering why I started over like this.
+
+There are a few reasons for this:
+- I discovered that `block.properties` requires block IDs to be mutually exclusive, and the previous system wasn't capable of ensuring that.
+	- In fact, changing the old system to be capable of this would have required a full rewrite anyways, so I decided to start over.
+- The old system required me to write and maintain a custom code interpreter, which isn't ideal for a project whose goal is *not* to create a new programming language.
+
+All that to say, I started over, and I'm pretty happy with the results.
+
+In addition to rectifying those pain points, I also managed to squeeze out a few more features:
+- I added the optional `fuzzy_tags` feature, which allows the library to tell you if you misspelled a tag, or if it's a tag that doesn't exist.
+- It's now possible to import block types and tags from mods and new versions of the game using the [data generator](https://wiki.vg/Data_Generators).
+- Tags can now do things like include all blocks that have a certain property, or whose name matches a certain pattern.
+	- ...as long as you've registered the blocks before you define the tag.
+- better progress bars!
+
+## What's next?
+
+I have a few ideas on my wishlist for future releases:
+- Improve the documentation for the project, of course
+- Add one or more project templates to help shaderpack developers get started with Block Wrangler
+- Add more preset tags for features that are commonly used in shaderpacks
+- Numerical flags support (`int emission_brightness(int block_id)`)
