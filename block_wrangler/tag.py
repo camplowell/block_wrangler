@@ -68,6 +68,8 @@ class Tag:
 		return Blocks(block_states)
 
 	def _validate_source(self, seen:List[Self]) -> None:
+		if isinstance(self.mode, Tag.WidenedMode) and self.parent in seen:
+			return # prevent infinite recursion when using widened mode
 		if self in seen:
 			raise RecursionError(f"Circular dependency detected: {' -> '.join([tag.name for tag in seen])} -> {self.name}")
 		seen.append(self)
@@ -88,7 +90,7 @@ class Tag:
 	
 
 	def _upstream_filters(self, seen:List[Self] = []) -> Dict[BlockType, StateFilter]:
-		if isinstance(self.mode, Tag.WidenedMode) and self.parent in seen and self in seen:
+		if isinstance(self.mode, Tag.WidenedMode) and self.parent in seen:
 			return dict() # prevent infinite recursion when using widened mode
 		if self in seen:
 			raise RecursionError(f"Circular dependency detected: {' -> '.join([tag.name for tag in seen])} -> {self.name}")
