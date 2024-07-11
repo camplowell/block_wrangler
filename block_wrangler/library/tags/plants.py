@@ -16,7 +16,7 @@ def load_tags(library:TagLibrary):
 		.add(library.touch('minecraft:saplings')) \
 		.add(block_types(
 			'minecraft:bamboo',
-			'minecraft:bamboo_shoot',
+			'minecraft:bamboo_sapling',
 			'minecraft:big_dripleaf',
 			'minecraft:big_dripleaf_stem',
 			'minecraft:cave_vines',
