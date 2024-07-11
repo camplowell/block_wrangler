@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import re
 from typing import Collection, Dict, List, TypeVar, TypedDict
 from rich.progress import Progress, TaskID
 from itertools import accumulate, chain
@@ -24,6 +25,9 @@ class BlockMapping:
 		mapping:Dict[frozenset[str], _BlockCollection] = dict()
 		encountered:_BlockCollection = _Blocks({})
 		expected_lengths = [*accumulate(range(len(flags)), lambda x, _: 2 * x + 1, initial=0)]
+		for flag_name in flags.keys():
+			if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", flag_name):
+				raise ValueError(f"Illegal identifier name '{flag_name}'")
 		with Progress(transient=True) as progress:
 			global_task = progress.add_task(total = sum(expected_lengths), description="Solving flag combinations")
 			for index, (new_flag, new_values) in enumerate(flags.items()):
