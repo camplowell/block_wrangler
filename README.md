@@ -41,24 +41,28 @@ They are created by transforming a dictionary whose keys are a semantically mean
 Below is a simple example of how to use the library. More complete documentation is coming soon.
 
 ```python
-from block_wrangler import load_tags, BlockMapping, blocks
+from block_wrangler import *
 from pathlib import Path
 
-shaderpack_root = Path('__file__').parent.joinpath('shaders').resolve()
+
+shaderpack_root = Path(__file__).parent
 
 def main():
 	tags = load_tags()
 
 	mapping = BlockMapping.solve({
 		'sway': tags['sway'],
-		'sway_bottom': tags['sway/bottom'],
-		'water': blocks('minecraft:water')
+		'sway_bottom': tags['sway/lower'] + tags['sway/short'], # Tags can be combined with the +, -, and & operators
+		'crops': tags['minecraft:crops'], # Vanilla tags are included
+		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
 	})
 
-	with shaderpack_root.joinpath('block.properties').open('w') as f:
+	with shaderpack_root.joinpath('shaders/block.properties').open('w') as f:
 		f.write(mapping.render_encoder())
-	with shaderpack_root.joinpath('util/block_properties.glsl').open('w') as f:
+	with shaderpack_root.joinpath('shaders/util/block_properties.glsl').open('w') as f:
 		f.write(mapping.render_decoder())
+	
+	print('Done!')
 
 if __name__ == '__main__':
 	main()

@@ -4,11 +4,16 @@
 
 
 bool sway(int id) {
-	return id == 1002 || id == 1001;
+	return id == 1001 || id == 1002 || id == 1003;
 }
 
 
-bool sway/bottom(int id) {
+bool sway_bottom(int id) {
+	return id == 1001 || id == 1002;
+}
+
+
+bool crops(int id) {
 	return id == 1001;
 }
 

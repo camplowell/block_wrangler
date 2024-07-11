@@ -9,8 +9,9 @@ def main():
 
 	mapping = BlockMapping.solve({
 		'sway': tags['sway'],
-		'sway/bottom': tags['sway/lower'] + tags['sway/short'],
-		'water': blocks('minecraft:water')
+		'sway_bottom': tags['sway/lower'] + tags['sway/short'], # Tags can be combined with the +, -, and & operators
+		'crops': tags['minecraft:crops'], # Vanilla tags are included
+		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
 	})
 
 	with shaderpack_root.joinpath('shaders/block.properties').open('w') as f:
