@@ -43,7 +43,10 @@ def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool]
 	return _BlockFamily((block for block in _all_blocks() if condition(block)), signature=signature)
 
 def register_block_type(block:_BlockType) -> None:
-	"""Register an external block type with the library, allowing it to be found by tags"""
+	"""Register an external block type with the library, allowing it to be found by tags.
+	
+	If called after load_tags, the block will not show up in any included tags.
+	"""
 	namespace_contents = _block_namespace(block.namespace, strict=False, add=True)
 	if block.name in namespace_contents:
 		if block == namespace_contents[block.name]:
