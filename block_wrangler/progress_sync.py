@@ -3,6 +3,7 @@ from rich.progress import Progress, TaskID
 
 
 class ProgressSync[T]:
+	"""An iterator wrapper that updates one or more progress bars at the same time as iterating"""
 	def __init__(self, wrapped:Iterable[T], progress:Progress, *tasks:TaskID, step:int=1):
 		self._wrapped = iter(wrapped)
 		self._progress = progress

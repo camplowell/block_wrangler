@@ -8,6 +8,7 @@ from .block_type import BlockType, BlockState
 States = Set[Tuple[int, ...]]
 
 def _filter_states(block:BlockType, filter:StateFilter, * , states:Iterable[Tuple[int, ...]]|None = None) -> States:
+	"""Produces a set of states that pass the filter"""
 	if states is None:
 		if block.properties:
 			states = product(*[range(len(vals)) for vals in block.properties.values()])
@@ -21,7 +22,7 @@ def _filter_states(block:BlockType, filter:StateFilter, * , states:Iterable[Tupl
 
 
 class BlockFamily[T:BlockState](Iterable[BlockType]):
-	"""A block family is a collection semantically related block types, optionally with a common signature"""
+	"""A collection of semantically related block types, optionally with a common signature"""
 	_blocks: Iterable[BlockType]
 	def __init__(self, blocks:Iterable[BlockType], / , signature:type[T] = BlockState) -> None:
 		self._blocks = (block for block in blocks if block.matches(signature))
@@ -90,6 +91,7 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 		return self.intersection(other)
 
 class Blocks[T:BlockState](BlockCollection[T]):
+	"""A collection of concrete block states, optionally with a common signature"""
 	_blocks: Dict[BlockType, States]
 	def __init__(self, blocks:BlockFamily[T]|Iterable[BlockType]|Dict[BlockType, States], / , filter:StateFilter[T] = passthrough, * , signature:type[T] = BlockState, _skip_check:bool = False) -> None:
 		"""A collection of concrete block states, optionally with a common signature

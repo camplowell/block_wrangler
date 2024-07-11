@@ -6,6 +6,7 @@ from typing import ClassVar, Dict, Final, Literal, Tuple, get_args, get_origin, 
 
 @dataclass(frozen=True)
 class BlockType:
+	"""Represents a type of Minecraft block and its properties."""
 	namespace: str
 	name: str
 	properties: Dict[str, Tuple[str, ...]] = field(hash=False)

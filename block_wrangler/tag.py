@@ -8,7 +8,7 @@ from .filters import StateFilter
 
 @dataclass
 class Tag:
-	"""A collection of block (states) that are semantically related to each other"""
+	"""A structure that produces a collection of block (states) that are semantically related to each other"""
 	name: str
 	parent: Self | None
 	sources: Dict[Self, StateFilter] = field(default_factory=dict, init=False)
