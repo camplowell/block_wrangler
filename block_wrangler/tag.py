@@ -142,12 +142,12 @@ class TagLibrary:
 			self.tags[tag] = Tag(tag, self.touch(tag[:tag.rindex('/')]) if '/' in tag else None)
 		return self.tags[tag]
 	
-	def tag_progressive(self, blocks:Iterable[BlockType], parent: str, property: str, tags: Collection[str], values: Collection[str]) -> None:
+	def tag_progressive(self, blocks:Iterable[BlockType], parent: str, tags: Collection[str|int], property: str,  values: Collection[str|int], filter:StateFilter=filters.passthrough) -> None:
 		"""Add a sequence of block states to a sequence of tags"""
 		if len(tags) != len(values):
 			raise ValueError(f"Tags and values must be the same length")
 		for tag, value in zip(tags, values):
-			self.touch(parent + '/' + tag).add(blocks, lambda state: state[property] == value)
+			self.touch(parent + '/' + str(tag)).add(blocks, lambda state: state[property] == str(value))
 	
 	def __getitem__(self, tag:str) -> Blocks:
 		"""Resolve the tag to a Blocks collection"""
