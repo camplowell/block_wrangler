@@ -1,6 +1,6 @@
 from collections import Counter
 from itertools import product, chain
-from typing import AbstractSet, Collection, Iterator, Protocol, Dict, Iterable, Set, Tuple, cast, overload
+from typing import AbstractSet, Collection, Iterator, Protocol, Dict, Iterable, Set, Tuple, cast, overload, runtime_checkable
 
 from .filters import StateFilter, passthrough
 from .block_type import BlockType, BlockState
@@ -30,6 +30,7 @@ class BlockFamily[T:BlockState](Iterable[BlockType]):
 	def __iter__(self) -> Iterator[BlockType]:
 		return iter(self._blocks)
 
+@runtime_checkable
 class BlockCollection[T:BlockState](Collection[T], Protocol):
 	"""A collection of concrete block states, optionally with a common signature"""
 	def blocks(self) -> AbstractSet[BlockType]: ...
