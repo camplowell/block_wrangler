@@ -63,11 +63,14 @@ def load_tags(library:TagLibrary):
 	
 	library.touch('lights/14') \
 		.add(block_types(
-			'minecraft:cave_vines',
 			'minecraft:end_rod',
 			'minecraft:torch',
 			'minecraft:wall_torch',
-		))
+		)) \
+		.add(block_types(
+			'minecraft:cave_vines',
+			'minecraft:cave_vines_plant',
+		), lambda state: state.berries == 'true')
 	
 	library.touch('lights/13') \
 		.add(block_types(
