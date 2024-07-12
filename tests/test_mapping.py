@@ -23,3 +23,16 @@ class TestMapping(unittest.TestCase):
 			frozenset(['B', 'C']): Blocks({d}),
 			frozenset(['C']): Blocks({e}),
 		})
+	
+	def test_sequential_mapping_overlap(self):
+		a: BlockType = BlockType('test', 'a', {})
+		b: BlockType = BlockType('test', 'b', {})
+		c: BlockType = BlockType('test', 'c', {})
+		d: BlockType = BlockType('test', 'd', {})
+		e: BlockType = BlockType('test', 'e', {})
+
+		self.assertRaises(ValueError, lambda:BlockMapping.solve({
+			'A': Blocks({a, b, c}),
+			'B': Blocks({b, c, d}),
+			'C': {i:Blocks({c, d, e}) for i in range(3)}
+		}))
