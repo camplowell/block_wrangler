@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Mapping, cast
 
 
 class RichLogger(logging.Logger):
-	VERBOSE = 15
+	VERBOSE = (logging.INFO + logging.DEBUG) // 2
 	if TYPE_CHECKING:
 		def verbose(
 			self, msg: object,
@@ -31,9 +31,8 @@ logging.setLoggerClass(RichLogger)
 
 FORMAT = "%(message)s"
 logging.basicConfig(
-	level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+	format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
 )
-
 
 def getLogger(name:str | None = 'block_wrangler'):
 	"""Return a logger with the specified name, creating it if necessary.
