@@ -11,7 +11,8 @@ def main():
 		'sway': tags['sway'],
 		'sway_bottom': tags['sway/lower'] + tags['sway/short'], # Tags can be combined with the +, -, and & operators
 		'crops': tags['minecraft:crops'], # Vanilla tags are included
-		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
+		'water': blocks('minecraft:water'), # Individual blocks can also be referenced by name
+		'emissivity': {i:tags[f'lights/{i}'] for i in range(1, 16)} # Use a dictionary to specify a flag with multiple return values (defaults to 0 when absent)
 	})
 
 	with shaderpack_root.joinpath('shaders/block.properties').open('w') as f:
