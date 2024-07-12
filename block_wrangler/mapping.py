@@ -1,8 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import re
-from typing import Collection, Dict, List, TypeVar, TypedDict
+from typing import Dict, List, Tuple, TypedDict
 from rich.progress import Progress, TaskID
 from itertools import accumulate, chain
+
 
 from .progress_sync import ProgressSync
 from .block_collections import BlockCollection as _BlockCollection, Blocks as _Blocks
@@ -13,25 +14,53 @@ def advance(progress:Progress, *tasks:TaskID, advance:int=1):
 		progress.update(task, advance=advance)
 
 MapEntry = TypedDict('MapEntry', {'id':int, 'flags':frozenset[str], 'blocks':_BlockCollection})
+FlagEntry = List[str|Tuple[str, List[int|float]]]
 @dataclass(frozen=True)
 class BlockMapping:
 	"""A mapping of block categories to block IDs"""
 	mapping:List[MapEntry]
-	flags: List[str]
+	flags: FlagEntry
 	pragma:str = "BLOCK_ID_MAPPING"
+	defines:Dict[str, str] = field(default_factory=dict)
 
 	@classmethod
-	def solve(cls, flags:Dict[str, _BlockCollection], *, start_index:int=1000, pragma:str="BLOCK_ID_MAPPING"):
+	def _expand(cls, flags:Dict[str, _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]]) -> Tuple[Dict[str, _BlockCollection], FlagEntry]:
+		sequence_flags = {flag:values for flag, values in flags.items() if isinstance(values, dict)}
+		bool_flags = {flag:values for flag, values in flags.items() if isinstance(values, _BlockCollection)}
+
+		key_entries:FlagEntry = [(key, list(value.keys())) for key, value in sequence_flags.items()]
+		key_entries.extend(bool_flags.keys())
+
+		for to_expand, values in sequence_flags.items():
+			seen = _Blocks({})
+			for i, value in values.items():
+				overlap = seen & value
+				if overlap:
+					raise ValueError(f"Sequence flag {to_expand} has ambiguous return values for the following blocks: {overlap}")
+				bool_flags[f'{to_expand}.{i}'] = value
+				seen += value
+		return bool_flags, key_entries
+
+	@classmethod
+	def solve(cls, flags:Dict[str, _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]], * , start_index:int=1000, pragma:str="BLOCK_ID_MAPPING", defines:Dict[str, str]|None = None):
+		"""Solve for a set of IDs that can be used to check if a block is in the specified categories
+		
+		Flag types:
+		- Blocks: Produces the method `bool flag(int id)` that returns true if the block is in the given collection
+		- Dict[int, Blocks]: Produces the method `int flag(int id)` that returns the key of the collection that the block is in, or 0 if the block is not in any of them.
+		- Dict[float, Blocks]: Produces the method `float flag(int id)` that returns the key of the collection that the block is in, or 0.0 if the block is not in any of them.
+		"""
 		mapping:Dict[frozenset[str], _BlockCollection] = dict()
 		encountered:_BlockCollection = _Blocks({})
-		expected_lengths = [*accumulate(range(len(flags)), lambda x, _: 2 * x + 1, initial=0)]
 		for flag_name in flags.keys():
 			if not re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", flag_name):
 				raise ValueError(f"Illegal identifier name '{flag_name}'")
+		bflags, flag_entries = cls._expand(flags)
+		expected_lengths = [*accumulate(range(len(bflags)), lambda x, _: 2 * x + 1, initial=0)]
 		with Progress(transient=True) as progress:
 			global_task = progress.add_task(total = sum(expected_lengths), description="Solving flag combinations")
-			for index, (new_flag, new_values) in enumerate(flags.items()):
-				subtask = progress.add_task(total=expected_lengths[index], description=f"Adding {new_flag} ({index + 1} / {len(flags)})")
+			for index, (new_flag, new_values) in enumerate(bflags.items()):
+				subtask = progress.add_task(total=expected_lengths[index], description=f"Adding {new_flag} ({index + 1} / {len(bflags)})")
 				generators = ProgressSync(
 					chain(
 						[(frozenset([new_flag]), new_values.difference, encountered)],
@@ -44,13 +73,15 @@ class BlockMapping:
 				)
 				mapping = {key:val for key, operation, arg in generators if bool(val := operation(arg))}
 				encountered = encountered.union(new_values) if encountered else new_values
-				if index < len(flags) - 1:
+				if index < len(bflags) - 1:
 					expected_lengths[index + 1:] = [*accumulate(range(len(expected_lengths[index + 1:])), lambda x, _: 2 * x + 1, initial=len(mapping))]
 					progress.update(global_task, total=sum(expected_lengths))
+				progress.remove_task(subtask)
 		return cls(
 			[MapEntry(id=index + start_index, flags=key, blocks=val) for index, (key, val) in enumerate(mapping.items())], 
-			list(flags.keys()), 
-			pragma
+			flag_entries,
+			pragma,
+			defines or dict()
 		)
 	
 	def render_encoder(self):
@@ -78,12 +109,31 @@ class BlockMapping:
 		]
 
 		for flag in self.flags:
-			lines.append(f"bool {flag}(int id) {{")
-			mapping = {f'id == {entry['id']}' for entry in self.mapping if flag in entry['flags']}
-			lines.append(f"\treturn {' || '.join(mapping) if mapping else 'false'};")
-			lines.append("}")
+			if isinstance(flag, str):
+				lines.append(f"bool {flag}(int id) {{")
+				mapping = {f'id == {entry['id']}' for entry in self.mapping if flag in entry['flags']}
+				lines.append(f"\treturn {' || '.join(mapping) if mapping else 'false'};")
+				lines.append("}")
+			else:
+				flag, indices = flag
+				if any(isinstance(i, float) for i in indices):
+					lines.append(f"float {flag}(int id) {{")
+				else:
+					lines.append(f"int {flag}(int id) {{")
+				for i in indices:
+					mapping = {f'id == {entry["id"]}' for entry in self.mapping if f'{flag}.{i}' in entry['flags']}
+					if mapping:
+						lines.append("\tif (" + ' || '.join(mapping) + ") {")
+						lines.append(f"\t\treturn {i};")
+						lines.append("\t}")
+				lines.append("\treturn 0;")
+				lines.append("}")
 			lines.append('')
 			lines.append('')
+		
+		for define, value in self.defines.items():
+			assert not define.endswith('\\')
+			lines.append(f"#define {define} {value}")
 
 		lines.append(f"#endif // {self.pragma}")
 		return "\n".join(lines)
