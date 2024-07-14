@@ -1,0 +1,35 @@
+# Custom Tags
+
+Block Wrangler includes a few pre-defined tags, but you can also create your own.
+
+## Why create your own tags? Why not just use block collections?
+The main benefit to creating tags are that they aren't calculated until they are actually used.
+This means that you can create tags that depend on other tags without having to worry about the order in which you define them.
+
+You can also modify them in multiple places without having to worry about which place is in charge of initializing the tag.
+
+## Creating a tag
+
+To add a tag to a TagLibrary, you can use the `TagLibrary.touch` method:
+```python
+tags = load_tags()
+my_tag = tags.touch('my_tag')
+```
+Now, every time you query `tags['my_tag']` or `tags.touch('my_tag')`, it will reference the same tag as the one you just created.
+
+## Adding blocks
+Tags take block types, rather than individual block states. This means you'll need to use the `block_types` function to add block types to a tag, rathern than the `blocks` function that you would use when defining flags.
+To add block types to a tag, you can use the `TagLibrary.add` method:
+```python
+tags = load_tags()
+tags.touch('my_tag').add(block_types('minecraft:oak_log'), filter=lambda state: state.axis == 'y')
+```
+
+## Adding other tags
+Tags can depend on other tags!
+To add another tag's contents to your own, simply pass the tag to the `add` method instead:
+```python
+
+tags.touch('persistent_leaves').add(tags.touch('minecraft:oak_leaves'), filter=lambda state: state.persistent == 'true')
+```
+

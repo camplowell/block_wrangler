@@ -10,32 +10,28 @@ import TabItem from '@theme/TabItem';
 
 Install Block Wrangler from your package manager of choice, or from source:
 <Tabs>
-<TabItem value="pip" label="pip">
-```bash
-pip install --user block-wrangler
-```
-</TabItem>
-<TabItem value="pipx" label="pipx">
-```bash
-pipx install block-wrangler
-```
-</TabItem>
-<TabItem value="from_source" label="from source">
-```bash
-cd some/folder
-git clone https://github.com/camplowell/block_wrangler.git
-cd block_wrangler
-pip install --user .
-```
-> Note: installing from source will not generate a portable requirements.txt file, so be aware before publishing your shaderpack on Github.  
-> However, it will allow you to create custom versions of Block Wrangler for your own use, or to contribute to the project.
-</TabItem>
-<TabItem value="venv" label="virtual environment">
+<TabItem value="install_venv" label="virtual environment">
 ```bash
 python -m venv ./venv
 source ./venv/bin/activate
 pip install block-wrangler
 ```
+</TabItem>
+<TabItem value="install_user" label="user wide">
+```bash
+pip install --user block-wrangler
+```
+</TabItem>
+<TabItem value="install_source" label="from source">
+```bash
+cd central/folder
+git clone https://github.com/camplowell/block_wrangler.git
+cd your/shaderpack
+pip install -e central/folder/block_wrangler
+```
+> Note: installing from source will not generate a portable requirements.txt file, so be aware before publishing your shaderpack on Github.  
+> However, it will allow you to create custom versions of Block Wrangler for your own use, or to contribute to the project.
+
 </TabItem>
 </Tabs>
 

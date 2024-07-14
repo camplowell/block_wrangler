@@ -1,0 +1,69 @@
+---
+sidebar_position: 2
+---
+
+# Finding Blocks
+
+Sets of block states are represented by `BlockCollection` objects (usually the `Blocks` class).
+There are several ways to find blocks in order to use them in flags.
+
+## Literal blocks
+
+You can use the `blocks` function to find blocks and block states by name:
+```python
+blocks('minecraft:oak_leaves', 'minecraft:redstone_ore:lit=true')
+```
+
+## Tags
+
+Tags are preset functions used to find blocks and block states.
+You can find a list of block states within a given tag by indexing into a tag collection:
+```python
+tags = load_tags() # Load pre-defined tags from the BlockWrangler library
+tags['minecraft:leaves'] # Find the tag named 'minecraft:leaves'
+```
+
+> If you installed Block Wrangler with the `[fuzzy_tags]` option, the library will include more detailed error messaging if you misspell a tag!
+
+## Gathering blocks
+
+Sometimes you may want to get all the blocks that meet certain criteria.
+For example, you may want to get all blocks with a certain property, or all blocks that contain a certain string in their name.
+
+To do this, you can use the `gather` function.
+
+### Searching by an arbitrary filter
+To search for blocks that meet an arbitrary filter, you can a function to the `type_filter` argument.  
+It should take a `BlockType` and return a boolean indicating whether the block should be included in the result.
+
+For example:
+```python
+oak_blocks = gather_blocks(type_filter = lambda block: block.name.startswith('oak'))
+vanilla_blocks = gather_blocks(type_filter =lambda block: block.namespace == 'minecraft')
+```
+
+### Searching by state
+To search for blocks that meet a state filter, you can pass a `StateFilter` to the `state_filter` argument.  
+A state filter is a function that takes a `BlockType` and returns a boolean indicating whether the block should be included in the result.
+
+For example:
+```python
+lit_blocks = gather_blocks(state_filter = lambda state: state.lit == 'true')
+```
+
+### Searching by signature
+Sometimes you may want to get all the blocks with a certain property, regardless of its value.
+For example, you may want to get all blocks that have a `lit` property that can be either `true` or `false`.
+
+To do this, you can pass a subclass of `BlockState` to the `signature` argument.  
+Any subclasses should define certain properties and their possible values.
+
+As a bonus, this will add type hinting to the function you pass to `state_filter`!
+
+For example:
+```python
+class Lightable(BlockState):
+	lit: Literal['true', 'false']
+
+lightable_blocks = gather_blocks(signature=Lightable)
+```

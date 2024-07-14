@@ -1,0 +1,24 @@
+# Custom Blocks
+
+Block Wrangler includes all vanilla blocks, but you can also add your own.
+To do this, you'll need to create a `BlockType` object.
+
+## Creating a block type
+When constructing a `BlockType` object, you'll need to provide a few things:
+- The namespace of the block
+- The name of the block
+- A dictionary of properties and their possible values (all strings)
+
+For example:
+```python
+from block_wrangler import BlockType
+my_block = BlockType('custom', 'my_block', {'my_property': ('true', 'false')})
+```
+
+Then you need to register the block type with the library if you want it to show up anywhere that uses the `gather_blocks` function:
+```python
+register_block_type(my_block)
+```
+:::warning
+Tags gather block types when they are defined, so make sure you register any blocks before calling `load_tags()`!
+:::

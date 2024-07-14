@@ -1,0 +1,21 @@
+# Filtering States
+
+Sometimes you may want to further narrow down an existing block collection based on its state.
+To do so, you can use the `where` function.
+
+```python
+logs = gather_blocks(type_filter=lambda block: block.name.startswith('log'))
+vertical_logs = logs.where(lambda block: block.axis == 'y')
+```
+
+## Filtering for missing properties
+
+If a block state doesn't have a certain property, it will return the sentinel value `BlockState.MISSING`.
+You can use this to find blocks that don't have a certain property, or to only exclude blocks that have the wrong value for a property, but ignore blocks that don't have it at all.
+
+For example:
+```python
+tags = load_tags()
+lights = tags['lights']
+on = lights.where(lambda state: state.lit in [BlockState.MISSING, 'true'])
+```
