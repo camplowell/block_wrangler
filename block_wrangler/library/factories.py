@@ -30,17 +30,17 @@ def blocks(*blocks:str|_BlockType, strict:bool=True) -> _BlockCollection:
 	"""Create a Blocks collection from the given blocks"""
 	return _reduce(lambda acc, block: acc.union(block), (block for block_str in blocks if (block := _coerce_block(block_str, strict=strict)) is not None), _Blocks(dict()))
 
-def gather_blocks[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState, filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
+def gather_blocks[T:_BlockState](type_filter:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState, state_filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
 	"""Find all blocks that match the condition and return them as a Blocks collection"""
-	return _Blocks((block for block in _all_blocks() if condition(block)), filter=filter, signature=signature)
+	return _Blocks((block for block in _all_blocks() if type_filter(block)), filter=state_filter, signature=signature)
 
 def block_types(*blocks:str|_BlockType , strict:bool=True) -> _tp.Iterable[_BlockType]:
 	"""Find block types by name"""
 	return (block for block_str in blocks if (block := _coerce_block_type(block_str, strict=strict)) is not None)
 
-def gather_block_types[T:_BlockState](condition:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState) -> _BlockFamily[T]:
+def gather_block_types[T:_BlockState](type_filter:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState) -> _BlockFamily[T]:
 	"""Find all block types that match the condition and return them"""
-	return _BlockFamily((block for block in _all_blocks() if condition(block)), signature=signature)
+	return _BlockFamily((block for block in _all_blocks() if type_filter(block)), signature=signature)
 
 def register_block_type(block:_BlockType) -> None:
 	"""Register an external block type with the library, allowing it to be found by tags.
