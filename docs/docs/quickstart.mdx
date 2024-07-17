@@ -6,9 +6,36 @@ import TabItem from '@theme/TabItem';
 
 # Quickstart
 
-## Installation
+## New Projects
+For new projects, we recommend using our shaderpack template.
+It includes the bare necessities for a shaderpack, as well as some infrastructure to make it easy to run Block Wrangler.
 
-Install Block Wrangler from your package manager of choice, or from source:
+
+### Prerequisites
+Our template uses a command-line utility called [cookiecutter](https://pypi.org/project/cookiecutter/) to provide additional flexibility when starting a new shaderpack using Block Wrangler.
+
+To install it, run:
+```bash
+pipx install cookiecutter
+```
+### Create a Repository
+Create a new repository in your version control system of choice.
+Clone your repository to your local machine, but **don't `cd` into it just yet!**
+
+In the enclosing folder, run this command to populate your new repository with the template:
+```bash
+cookiecutter gh:camplowell/shader_templates -f
+```
+:::tip
+This template includes a `.gitignore` file to prevent committing virtual environments, cache files, and other things you probably don't want to commit.
+:::
+
+Block Wrangler is ready to use! Don't forget to commit and push your changes to your repository.
+
+## Existing Projects
+To add Block Wrangler to existing projects, you can install it from your package manager of choice, or from source:
+
+### Installation
 <Tabs>
 <TabItem value="install_venv" label="virtual environment">
 ```bash
@@ -16,25 +43,6 @@ python -m venv ./venv
 source ./venv/bin/activate
 pip install block-wrangler
 ```
-</TabItem>
-<TabItem value="install_user" label="user wide">
-```bash
-pip install --user block-wrangler
-```
-</TabItem>
-<TabItem value="install_source" label="from source">
-```bash
-cd central/folder
-git clone https://github.com/camplowell/block_wrangler.git
-cd your/shaderpack
-pip install -e central/folder/block_wrangler
-```
-> Note: installing from source will not generate a portable requirements.txt file, so be aware before publishing your shaderpack on Github.  
-> However, it will allow you to create custom versions of Block Wrangler for your own use, or to contribute to the project.
-
-</TabItem>
-</Tabs>
-
 <details>
 <summary>Extra features</summary>
 
@@ -43,8 +51,58 @@ To get more detailed error messages when something goes wrong, add `[fuzzy_tags]
 pip install block-wrangler[fuzzy_tags]
 ```
 </details>
+</TabItem>
+<TabItem value="install_user" label="user-wide">
+```bash
+pip install --user block-wrangler
+```
+:::note
+Installing libraries globally is generally not recommended.
+:::
+<details>
+<summary>Extra features</summary>
 
-## Usage
+To get more detailed error messages when something goes wrong, add `[fuzzy_tags]` to your install command, like so:
+```bash
+pip install --user block-wrangler[fuzzy_tags]
+```
+</details>
+</TabItem>
+<TabItem value="install_source" label="from source">
+```bash
+cd central/folder
+git clone https://github.com/camplowell/block_wrangler.git
+cd your/shaderpack
+pip install -e central/folder/block_wrangler
+```
+:::note
+Installing from source will not generate a portable requirements.txt file, so be aware before publishing your shaderpack on Github.  
+However, it will allow you to create custom versions of Block Wrangler for your own use, or to contribute to the project.
+:::
+<details>
+<summary>Extra features</summary>
+
+To get more detailed error messages when something goes wrong, add `[fuzzy_tags]` to your install command, like so:
+```bash
+pip install -e 'central/folder/block_wrangler[fuzzy_tags]'
+```
+</details>
+</TabItem>
+</Tabs>
+
+### Repository maintenance
+
+Add [this `.gitignore` file](https://github.com/github/gitignore/blob/main/Python.gitignore) to your repository to prevent committing virtual environments, cache files, and other things you probably don't want to commit.
+
+
+Generate a requirements.txt file using:
+```bash
+pip freeze > requirements.txt
+```
+
+This file will be used by contributors to ensure they have the same dependencies as you.
+
+### Configuration
 
 At the root of your shaderpack, create a `block_properties.py` file with the following contents:
 ```python title="block_properties.py"
@@ -73,6 +131,6 @@ if __name__ == '__main__':
 	main()
 ```
 
-run `python block_properties.py` to generate the block properties and decoder GLSL files.
+## Usage
 
-Be sure to generate a requirements.txt file using `pip freeze > requirements.txt` to let contributors know what they need to build your shaderpack!
+run `python block_properties.py` to generate the block properties and decoder GLSL files.
