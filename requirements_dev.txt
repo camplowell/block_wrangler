@@ -1,8 +1,0 @@
-Jinja2==3.1.4
-markdown-it-py==3.0.0
-MarkupSafe==2.1.5
-mdurl==0.1.2
-Pygments==2.18.0
-rapidfuzz==3.9.4
-rich==13.7.1
-setuptools==70.2.0

@@ -2,7 +2,7 @@
 
 if [ ! -d "./venv_dev" ]; then
 	python3 -m venv ./venv_dev
-	pip install -r requirements_dev.txt
+	pip install -e '.[dev]'
 fi
 source ./venv_dev/bin/activate
 python scripts/importer.py "$@"

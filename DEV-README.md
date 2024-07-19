@@ -1,5 +1,19 @@
 # Developer README
 
+## Setting up a development environment
+first, set up a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+then, install an editable versiion of `block_wrangler` with the development dependencies:
+```bash
+pip install -e .[dev]
+```
+
+You're ready to go!
+
 ## Importing blocks and tags
 
 The import.sh script can be used to import blocks and tags from the Minecraft [data generator](https://wiki.vg/Data_Generators).
