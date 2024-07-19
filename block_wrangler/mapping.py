@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 import re
-from typing import Dict, List, Tuple, TypedDict
+from typing import Callable, Dict, List, Tuple, TypedDict, ParamSpec
 from rich.progress import Progress, TaskID
 from itertools import accumulate, chain
 
@@ -13,8 +13,14 @@ def advance(progress:Progress, *tasks:TaskID, advance:int=1):
 	for task in tasks:
 		progress.update(task, advance=advance)
 
+
+
+def passthrough_namer(flag:str) -> str:
+	return flag
+
+FlagDefinition = _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]
 MapEntry = TypedDict('MapEntry', {'id':int, 'flags':frozenset[str], 'blocks':_BlockCollection})
-FlagEntry = List[str|Tuple[str, List[int|float]]]
+FlagEntry = List[str|Tuple[str, List[int|float]]] 
 @dataclass(frozen=True)
 class BlockMapping:
 	"""A mapping of block categories to block IDs"""
@@ -22,6 +28,7 @@ class BlockMapping:
 	flags: FlagEntry
 	pragma:str = "BLOCK_ID_MAPPING"
 	defines:Dict[str, str] = field(default_factory=dict)
+	function_namer:Callable[[str], str] = passthrough_namer
 
 	@classmethod
 	def _expand(cls, flags:Dict[str, _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]]) -> Tuple[Dict[str, _BlockCollection], FlagEntry]:
@@ -42,13 +49,28 @@ class BlockMapping:
 		return bool_flags, key_entries
 
 	@classmethod
-	def solve(cls, flags:Dict[str, _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]], * , start_index:int=1000, pragma:str="BLOCK_ID_MAPPING", defines:Dict[str, str]|None = None):
+	def solve(
+		cls, 
+		flags:Dict[str, FlagDefinition], 
+		* , 
+		start_index:int=1000, 
+		pragma:str="BLOCK_ID_MAPPING", 
+		defines:Dict[str, str]|None = None,
+		function_name:str|Callable[[str], str] = '{flag}'
+	):
 		"""Solve for a set of IDs that can be used to check if a block is in the specified categories
 		
 		Flag types:
 		- Blocks: Produces the method `bool flag(int id)` that returns true if the block is in the given collection
 		- Dict[int, Blocks]: Produces the method `int flag(int id)` that returns the key of the collection that the block is in, or 0 if the block is not in any of them.
 		- Dict[float, Blocks]: Produces the method `float flag(int id)` that returns the key of the collection that the block is in, or 0.0 if the block is not in any of them.
+
+		Args:
+			flags: A dictionary of flag names to collections of blocks
+			start_index: The first index to use for the block IDs
+			pragma: The define used to prevent double-inclusion
+			defines: A dictionary of defines to add to the generated code (useful for enum-like flags)
+			function_name: Determines the name of the decoder function. If a string, it will be formatted with the flag name. If a callable, it will be called with the flag name.
 		"""
 		mapping:Dict[frozenset[str], _BlockCollection] = dict()
 		encountered:_BlockCollection = _Blocks({})
@@ -81,7 +103,8 @@ class BlockMapping:
 			[MapEntry(id=index + start_index, flags=key, blocks=val) for index, (key, val) in enumerate(mapping.items())], 
 			flag_entries,
 			pragma,
-			defines or dict()
+			defines or dict(),
+			function_name if callable(function_name) else passthrough_namer if function_name == '{flag}' else lambda flag: function_name.format(flag=flag)
 		)
 	
 	def render_encoder(self):
@@ -116,10 +139,11 @@ class BlockMapping:
 				lines.append("}")
 			else:
 				flag, indices = flag
+				
 				if any(isinstance(i, float) for i in indices):
-					lines.append(f"float {flag}(int id) {{")
+					lines.append(f"float {self.function_namer(flag)}(int id) {{")
 				else:
-					lines.append(f"int {flag}(int id) {{")
+					lines.append(f"int {self.function_namer(flag)}(int id) {{")
 				for i in indices:
 					mapping = {f'id == {entry["id"]}' for entry in self.mapping if f'{flag}.{i}' in entry['flags']}
 					if mapping:
