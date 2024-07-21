@@ -60,7 +60,7 @@ def bake_blocks():
 			return name[:name.index(':')] if ':' in name else 'minecraft', None
 		return None
 	for block in gather_block_types():
-		touch_node(library, block.name, block.properties, block_parent_info)
+		touch_node(library, block.path, block.properties, block_parent_info)
 	intuitive_sort(library)
 	return library
 
