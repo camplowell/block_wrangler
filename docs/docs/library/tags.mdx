@@ -1,0 +1,37 @@
+import TagData from '@site/static/library/tags.json';
+import SearchableTreeView from "@site/src/components/SearchableTree";
+import React, { useState } from "react";
+import Layout from '@theme/Layout';
+
+# Tags
+export const TagSearcher = () => {
+  const [filter, setFilter] = useState("");
+
+  return (
+    <div>
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        onChange={(e) => {
+          setFilter(e.target.value);
+        }}
+        style={{
+          width: "100%",
+        }}
+      />
+          
+      <SearchableTreeView
+        data={TagData}
+        action={(element) => {navigator.clipboard.writeText(element.name)}}
+        action_label='Copy tag'
+        poll_action={(element) => {
+          return !(element.metadata && element.metadata.namespace);
+        }}
+        filter={filter}
+      />
+    </div>
+  );
+}
+
+<TagSearcher />
+

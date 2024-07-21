@@ -11,6 +11,7 @@
 # Generated files
 .docusaurus
 .cache-loader
+/docs/static/library
 
 # Misc
 .DS_Store

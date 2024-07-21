@@ -1,0 +1,52 @@
+.tree {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	ul, li {
+		padding-inline: 0;
+	}
+
+	:global(.tree-node),
+	:global(.tree-node-group) {
+		list-style: none;
+		margin: 0;
+		padding-block: 0;
+		width: 100%;
+	}
+
+	:global(.tree-node) {
+		--level-padding: 0px;
+		display: inline-block;
+		padding-inline: var(--ifm-global-spacing);
+		padding-left: calc(var(--ifm-global-spacing) + var(--level-padding));
+		border-radius: var(--ifm-pagination-nav-border-radius);
+	}
+
+	:global(.tree-node-group) {
+		padding-inline: 0;
+	}
+
+	:global(.tree-branch-wrapper),
+	:global(.tree-node__leaf) {
+		outline: none;
+		border: none;
+	}
+
+	:global(.tree-node__branch) {
+		display: block;
+	}
+
+	:global(.tree-node--focused) {
+		background-color: var(--ifm-menu-color-background-active);
+	}
+
+	:global(.tree-branch-wrapper)[aria-disabled="true"]
+	:global(.tree-leaf-list-item):has(.tree-node[aria-disabled="true"]) {
+		display: none;
+	}
+
+	*[aria-disabled="true"] {
+		display: none !important;
+	}
+}
