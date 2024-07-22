@@ -1,6 +1,6 @@
-from typing import Iterable, Literal
+from typing import Literal
 from block_wrangler.tag import TagLibrary
-from block_wrangler.block_type import BlockState, BlockType
+from block_wrangler.block_type import BlockState
 from block_wrangler.library.factories import block_types, gather_block_types
 from block_wrangler.irange import irange
 
