@@ -8,59 +8,6 @@
       },
       "children":[
         {
-          "name":"glowy",
-          "children":[
-            {
-              "name":"glowy/redstone"
-            },
-            {
-              "name":"glowy/redstone/1"
-            },
-            {
-              "name":"glowy/redstone/2"
-            },
-            {
-              "name":"glowy/redstone/3"
-            },
-            {
-              "name":"glowy/redstone/4"
-            },
-            {
-              "name":"glowy/redstone/5"
-            },
-            {
-              "name":"glowy/redstone/6"
-            },
-            {
-              "name":"glowy/redstone/7"
-            },
-            {
-              "name":"glowy/redstone/8"
-            },
-            {
-              "name":"glowy/redstone/9"
-            },
-            {
-              "name":"glowy/redstone/10"
-            },
-            {
-              "name":"glowy/redstone/11"
-            },
-            {
-              "name":"glowy/redstone/12"
-            },
-            {
-              "name":"glowy/redstone/13"
-            },
-            {
-              "name":"glowy/redstone/14"
-            },
-            {
-              "name":"glowy/redstone/15"
-            }
-          ]
-        },
-        {
           "name":"lights",
           "children":[
             {
