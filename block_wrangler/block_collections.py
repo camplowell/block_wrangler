@@ -90,6 +90,12 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 	
 	def __and__(self, other:'BlockCollection') -> 'BlockCollection':
 		return self.intersection(other)
+	
+	def __str__(self):
+		return self.render()
+	
+	def __repr__(self):
+		return f"Blocks({self.render()})"
 
 class Blocks[T:BlockState](BlockCollection[T]):
 	"""A collection of concrete block states, optionally with a common signature"""
