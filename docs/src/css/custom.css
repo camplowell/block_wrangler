@@ -37,10 +37,12 @@
   padding: 0px;
 }
 
-.szh-menu__item {
-  padding-inline: var(--ifm-global-spacing);
+.menu-item-content {
+  margin-inline: var(--ifm-global-spacing);
 }
-
+.szh-menu .szh-menu__item {
+  padding-inline: 0px;
+}
 .szh-menu__item:hover {
   background-color: var(--ifm-hover-overlay);
 }
