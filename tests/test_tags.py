@@ -79,12 +79,17 @@ class TestTags(unittest.TestCase):
 		tags = TagLibrary()
 		a = tags.touch('a')
 		b = tags.touch('a/b')
+		c = tags.touch('a/c')
 
 		b.set_mode(Tag.WidenedMode(lambda state: state.type == 'bottom'))
+
 		oak_slab = BlockType('minecraft', 'oak_slab', {'type': ('top', 'bottom', 'double')})
+		cobblestone_slab = BlockType('minecraft', 'cobblestone_slab', {'type': ('top', 'bottom', 'double')})
 		dirt = BlockType('minecraft', 'dirt', {})
 		a.add([oak_slab, dirt])
-		self.assertIn(BlockState(oak_slab, {'type':'bottom'}), b.resolve())
-		self.assertNotIn(BlockState(oak_slab, {'type':'top'}), b.resolve())
+		c.add([cobblestone_slab])
 
+		self.assertIn(BlockState(oak_slab, {'type':'bottom'}), b.resolve())
+		self.assertIn(BlockState(cobblestone_slab, {'type': 'bottom'}), b.resolve())
+		self.assertNotIn(BlockState(oak_slab, {'type':'top'}), b.resolve())
 		self.assertNotIn(BlockState(dirt, {}), b.resolve())
