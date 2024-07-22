@@ -46,7 +46,7 @@ int emissivity(int id) {
 	if (id == 1002) {
 		return 14;
 	}
-	if (id == 1000 || id == 1001) {
+	if (id == 1001 || id == 1000) {
 		return 15;
 	}
 	return 0;
@@ -54,17 +54,17 @@ int emissivity(int id) {
 
 
 bool sway(int id) {
-	return id == 1019 || id == 1018 || id == 1017 || id == 1001;
+	return id == 1019 || id == 1018 || id == 1017 || id == 1020 || id == 1001;
 }
 
 
 bool sway_bottom(int id) {
-	return id == 1018 || id == 1017;
+	return id == 1019 || id == 1017;
 }
 
 
 bool crops(int id) {
-	return id == 1017;
+	return id == 1018 || id == 1017;
 }
 
 
