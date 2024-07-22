@@ -56,7 +56,7 @@ const config: Config = {
       title: 'Block Wrangler',
       logo: {
         alt: 'Block Wrangler Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
@@ -83,6 +83,10 @@ const config: Config = {
               label: 'Quickstart',
               to: '/docs/quickstart',
             },
+            {
+              label: 'Tag Library',
+              to: '/docs/library/tags',
+            }
           ],
         },
         {
@@ -91,6 +95,10 @@ const config: Config = {
             {
               label: 'Blog',
               to: '/blog',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discord.gg/me4JeAZ2Bf',
             },
             {
               label: 'GitHub',
