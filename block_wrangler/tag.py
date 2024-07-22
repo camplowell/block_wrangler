@@ -36,6 +36,7 @@ class Tag:
 			self.parent.add(self)
 	
 	def add[T:BlockState](self, source: Self|Iterable[BlockType], filter:StateFilter[T] = filters.passthrough) -> Self:
+		"""Add a collection of blocks to the tag, and optionally a filter to apply to their states"""
 		if isinstance(source, Tag):
 			source._validate_source([self])
 			self.sources[source] = filter
@@ -59,7 +60,7 @@ class Tag:
 		return self
 	
 	def resolve(self) -> Blocks:
-		"""Resolve the tag to a concreteBlocks collection"""
+		"""Resolve the tag to a concrete Blocks collection"""
 		block_states = dict()
 		for block, upstream in self._upstream_filters().items():
 			filtered = _filter_states(block, filters.all(upstream, self._downstream_filter(block)))
