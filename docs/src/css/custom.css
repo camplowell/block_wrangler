@@ -29,18 +29,19 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-.ContextMenuContent {
+.szh-menu-container .szh-menu {
   background-color: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-pagination-nav-border-radius);
   color: var(--ifm-color-content);
+  padding: 0px;
 }
 
-.ContextMenuItem {
+.szh-menu__item {
   padding-inline: var(--ifm-global-spacing);
 }
 
-.ContextMenuItem:hover {
+.szh-menu__item:hover {
   background-color: var(--ifm-hover-overlay);
 }
 

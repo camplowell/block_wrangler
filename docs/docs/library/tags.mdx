@@ -2,6 +2,7 @@ import TagData from '@site/static/library/tags.json';
 import SearchableTreeView from "@site/src/components/SearchableTree";
 import React, { useState } from "react";
 import Layout from '@theme/Layout';
+import { MenuItem } from "@szhsin/react-menu";
 
 # Tags
 export const TagSearcher = () => {
@@ -26,12 +27,15 @@ export const TagSearcher = () => {
       </div>
       <SearchableTreeView
         data={TagData}
-        action={(element) => {navigator.clipboard.writeText(element.name)}}
-        action_label='Copy tag'
-        poll_action={(element) => {
-          return !(element.metadata && element.metadata.namespace);
-        }}
         filter={filter}
+        render_context={({element, level, isBranch, handleExpand, isExpanded}) => {
+          return (
+            <span>
+            {(level > 1) && (<MenuItem onClick={() => {navigator.clipboard.writeText(element.name)}}>Copy tag</MenuItem>)}
+            {isBranch && (<MenuItem onClick={handleExpand}>{isExpanded ? "Collapse" : "Expand"}</MenuItem>)}
+            </span>
+          );
+        }}
       />
     </div>
   );
