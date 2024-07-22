@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/block_wrangler/blog</id>
+    <id>https://github.com/block_wrangler/blog/</id>
     <title>Block Wrangler Blog</title>
     <updated>2024-07-11T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://github.com/block_wrangler/blog"/>
+    <link rel="alternate" href="https://github.com/block_wrangler/blog/"/>
     <subtitle>Block Wrangler Blog</subtitle>
     <icon>https://github.com/block_wrangler/img/favicon.ico</icon>
     <entry>
         <title type="html"><![CDATA[First alpha release!]]></title>
-        <id>https://github.com/block_wrangler/blog/alpha-blog-post</id>
-        <link href="https://github.com/block_wrangler/blog/alpha-blog-post"/>
+        <id>https://github.com/block_wrangler/blog/alpha-blog-post/</id>
+        <link href="https://github.com/block_wrangler/blog/alpha-blog-post/"/>
         <updated>2024-07-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Welcome to the first alpha release of Block Wrangler!]]></summary>
         <content type="html"><![CDATA[<p>Welcome to the first alpha release of Block Wrangler!</p>
@@ -36,7 +36,7 @@
 </li>
 <li>better progress bars!</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What's next?<a class="hash-link" aria-label="Direct link to What's next?" title="Direct link to What's next?" href="https://github.com/block_wrangler/blog/alpha-blog-post#whats-next">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What's next?<a class="hash-link" aria-label="Direct link to What's next?" title="Direct link to What's next?" href="https://github.com/block_wrangler/blog/alpha-blog-post/#whats-next">​</a></h2>
 <p>I have a few ideas on my wishlist for future releases:</p>
 <ul>
 <li>Improve the documentation for the project, of course</li>

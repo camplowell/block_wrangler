@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Block Wrangler Blog</title>
-        <link>https://github.com/block_wrangler/blog</link>
+        <link>https://github.com/block_wrangler/blog/</link>
         <description>Block Wrangler Blog</description>
         <lastBuildDate>Thu, 11 Jul 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
@@ -10,8 +10,8 @@
         <language>en</language>
         <item>
             <title><![CDATA[First alpha release!]]></title>
-            <link>https://github.com/block_wrangler/blog/alpha-blog-post</link>
-            <guid>https://github.com/block_wrangler/blog/alpha-blog-post</guid>
+            <link>https://github.com/block_wrangler/blog/alpha-blog-post/</link>
+            <guid>https://github.com/block_wrangler/blog/alpha-blog-post/</guid>
             <pubDate>Thu, 11 Jul 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[Welcome to the first alpha release of Block Wrangler!]]></description>
             <content:encoded><![CDATA[<p>Welcome to the first alpha release of Block Wrangler!</p>
@@ -37,7 +37,7 @@
 </li>
 <li>better progress bars!</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What's next?<a class="hash-link" aria-label="Direct link to What's next?" title="Direct link to What's next?" href="https://github.com/block_wrangler/blog/alpha-blog-post#whats-next">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="whats-next">What's next?<a class="hash-link" aria-label="Direct link to What's next?" title="Direct link to What's next?" href="https://github.com/block_wrangler/blog/alpha-blog-post/#whats-next">​</a></h2>
 <p>I have a few ideas on my wishlist for future releases:</p>
 <ul>
 <li>Improve the documentation for the project, of course</li>
