@@ -8,17 +8,21 @@ def load_tags(library:TagLibrary):
 
 	library.touch('sway/short') \
 		.add(library.touch('minecraft:small_flowers')) \
-		.add(library.touch('minecraft:crops')) \
 		.add(library.touch('minecraft:saplings')) \
 		.add(block_types(
 			'minecraft:bamboo_sapling',
+			'minecraft:beetroots',
+			'minecraft:carrots',
 			'minecraft:dead_bush',
 			'minecraft:fern',
-			'minecraft:pitcher_crop',
+			'minecraft:melon_stem',
+			'minecraft:potatoes',
+			'minecraft:pumpkin_stem',
 			'minecraft:seagrass',
 			'minecraft:short_grass',
-			'minecraft:small_dripleaf',
 			'minecraft:sweet_berry_bush',
+			'minecraft:torchflower_crop',
+			'minecraft:wheat',
 		)) \
 		.add(block_types(
 			'minecraft:mangrove_propagule'
