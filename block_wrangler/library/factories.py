@@ -104,7 +104,7 @@ def _coerce_block(raw:str|_BlockType, strict:bool=True) -> _Blocks | None:
 	if block is None:
 		return None
 	if len(block.properties) == 0:
-		return _Blocks({block:set(tuple())})
+		return _Blocks({block:{tuple()}})
 	
 	def _parse_param(param:str) -> _StateFilter:
 		param_name, param_value = param.split('=')
