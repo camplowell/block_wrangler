@@ -54,12 +54,12 @@ int emissivity(int id) {
 
 
 bool sway(int id) {
-	return id == 1001 || id == 1020 || id == 1019 || id == 1017 || id == 1018;
+	return id == 1001 || id == 1017 || id == 1018 || id == 1019 || id == 1020;
 }
 
 
 bool sway_bottom(int id) {
-	return id == 1019 || id == 1017;
+	return id == 1017 || id == 1019;
 }
 
 
