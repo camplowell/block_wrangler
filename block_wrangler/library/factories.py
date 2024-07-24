@@ -32,7 +32,7 @@ def blocks(*blocks:str|_BlockType, strict:bool=True) -> _BlockCollection:
 
 def gather_blocks[T:_BlockState](type_filter:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState, state_filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
 	"""Find all blocks that match the condition and return them as a Blocks collection"""
-	return _Blocks((block for block in _all_blocks() if type_filter(block)), filter=state_filter, signature=signature)
+	return _Blocks({block:block.state_tuples() for block in _all_blocks() if type_filter(block)}, filter=state_filter, signature=signature)
 
 def block_types(*blocks:str|_BlockType , strict:bool=True) -> _tp.Iterable[_BlockType]:
 	"""Find block types by name"""
@@ -91,7 +91,7 @@ def _block_namespace(namespace:str, strict:bool=True, add:bool=False) -> _tp.Dic
 
 def _coerce_block(raw:str|_BlockType, strict:bool=True) -> _Blocks | None:
 	if isinstance(raw, _BlockType):
-		return _Blocks([raw])
+		return _Blocks({raw:raw.state_tuples()})
 	if '=' not in raw:
 		name_part = raw
 		params_part = []
@@ -109,4 +109,4 @@ def _coerce_block(raw:str|_BlockType, strict:bool=True) -> _Blocks | None:
 	def _parse_param(param:str) -> _StateFilter:
 		param_name, param_value = param.split('=')
 		return lambda block:getattr(block, param_name) == param_value
-	return _Blocks([block], filter=_filters.all(*[_parse_param(param) for param in params_part]))
+	return _Blocks({block:block.state_tuples()}, filter=_filters.all(*[_parse_param(param) for param in params_part]))

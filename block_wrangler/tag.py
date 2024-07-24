@@ -63,7 +63,8 @@ class Tag:
 		"""Resolve the tag to a concrete Blocks collection"""
 		block_states = dict()
 		for block, upstream in self._upstream_filters().items():
-			filtered = _filter_states(block, filters.all(upstream, self._downstream_filter(block)))
+			filter_fn:StateFilter = filters.all(upstream, self._downstream_filter(block))
+			filtered = [state._state for state in block.states() if filter_fn(state)]
 			if filtered:
 				block_states[block] = filtered
 		return Blocks(block_states)

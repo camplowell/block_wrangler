@@ -1,5 +1,5 @@
 from collections import Counter
-from itertools import product, chain
+from itertools import chain
 from typing import AbstractSet, Collection, Iterator, Protocol, Dict, Iterable, Set, Tuple, cast, overload, runtime_checkable
 
 from .filters import StateFilter, passthrough
@@ -10,25 +10,22 @@ States = Set[Tuple[int, ...]]
 def _filter_states(block:BlockType, filter:StateFilter, * , states:Iterable[Tuple[int, ...]]|None = None) -> States:
 	"""Produces a set of states that pass the filter"""
 	if states is None:
-		if block.properties:
-			states = product(*[range(len(vals)) for vals in block.properties.values()])
-		else:
-			states = [tuple()]
-	result = set()
-	for state in states:
-		if filter(BlockState(block, state)):
-			result.add(state)
-	return result
-
+		states = block.state_tuples()
+	return {state for state in states if filter(BlockState(block, state))}
 
 class BlockFamily[T:BlockState](Iterable[BlockType]):
 	"""A collection of semantically related block types, optionally with a common signature"""
 	_blocks: Iterable[BlockType]
+	_signature: type[T]
 	def __init__(self, blocks:Iterable[BlockType], / , signature:type[T] = BlockState) -> None:
 		self._blocks = (block for block in blocks if block.matches(signature))
+		self._signature = signature
 	
 	def __iter__(self) -> Iterator[BlockType]:
 		return iter(self._blocks)
+	
+	def states(self, filter:StateFilter[T] = passthrough) -> 'BlockCollection[T]':
+		return Blocks({block:block.state_tuples() for block in self._blocks}, filter=filter, signature=self._signature, _skip_check=True)
 
 @runtime_checkable
 class BlockCollection[T:BlockState](Collection[T], Protocol):
@@ -95,33 +92,35 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 		return self.render()
 	
 	def __repr__(self):
-		return f"Blocks({self.render()})"
+		block_strs = []
+		for block in self.blocks():
+			block_strs.extend(str(state) for state in self.get(block))
+		
+		return f"Blocks({' '.join(block_strs)})"
 
 class Blocks[T:BlockState](BlockCollection[T]):
 	"""A collection of concrete block states, optionally with a common signature"""
 	_blocks: Dict[BlockType, States]
-	def __init__(self, blocks:BlockFamily[T]|Iterable[BlockType]|Dict[BlockType, States], / , filter:StateFilter[T] = passthrough, * , signature:type[T] = BlockState, _skip_check:bool = False) -> None:
-		"""A collection of concrete block states, optionally with a common signature
-		Args:
-			blocks (Iterable[BlockType]|Dict[BlockType, States]): the block(states) to consider
-			filter (StateFilter[T], optional): Discards any block states that don't pass the filter.
-			signature (type[T], optional): Discards any blocks that don't match the signature and provides type hints for the filter.
-		"""
-		if isinstance(blocks, dict):
-			if _skip_check or signature is BlockState:
-				self._blocks = blocks.copy()
-				return
-			if filter is passthrough:
-				self._blocks = {block:states for block, states in blocks.items() if block.matches(signature)}
-			else:
-				def _filter(block:BlockType, states:States) -> States:
-					if not block.matches(signature):
-						return set()
-					return {state for state in states if filter(cast(T, BlockState(block, state)))}
-				self._blocks = {block:filtered for block, unfiltered in blocks.items() if (filtered:=_filter(block, unfiltered))}
-			self._blocks = blocks.copy()
+
+	def __init__(self, blocks:Dict[BlockType, Iterable[Tuple[int, ...]]]|Dict[BlockType, States], / , filter:StateFilter[T] = passthrough, * , signature:type[T] = BlockState, _skip_check:bool = False) -> None:
+		"""A collection of concrete block states, optionally with a common signature"""
+		if _skip_check and filter is passthrough: # Fast path for internal use
+			if blocks:
+				assert all(isinstance(val, set) for val in blocks.values())
+			blocks = cast(Dict[BlockType, States], blocks)
+			self._blocks = blocks
+			return
+		
+		if _skip_check or signature is BlockState:
+			get_states = _filter_states
 		else:
-			self._blocks = {block:states for block in blocks if block.matches(signature) and (states:=_filter_states(block, filter))}
+			def _get_states(block:BlockType, filter:StateFilter[T], states:Iterable[Tuple[int, ...]]) -> States | None:
+				if not block.matches(signature):
+					return None
+				return _filter_states(block, filter, states=states)
+			get_states = _get_states
+		
+		self._blocks = {block:states for block, _states in blocks.items() if (states:=get_states(block, filter, states=_states))}
 	
 	def blocks(self) -> AbstractSet[BlockType]:
 		return self._blocks.keys()
@@ -140,7 +139,7 @@ def _render_block(block:BlockType, states:States) -> str:
 		assert all(state[i] < len(value) for state in states)
 	if num_props == 0:
 		return block.path
-	for state_mask, (key, values) in zip(range(num_props), block.properties.items()):
+	for state_mask, values in zip(range(num_props), block.properties.values()):
 		state_counter:Counter[Tuple[int, ...]] = Counter()
 		for state in states:
 			state_counter[_mask_property(state, state_mask)] += 1
