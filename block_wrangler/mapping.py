@@ -13,14 +13,13 @@ def advance(progress:Progress, *tasks:TaskID, advance:int=1):
 	for task in tasks:
 		progress.update(task, advance=advance)
 
-
-
 def passthrough_namer(flag:str) -> str:
 	return flag
 
 FlagDefinition = _BlockCollection|Dict[int, _BlockCollection]|Dict[float, _BlockCollection]
 MapEntry = TypedDict('MapEntry', {'id':int, 'flags':frozenset[str], 'blocks':_BlockCollection})
-FlagEntry = List[str|Tuple[str, List[int|float]]] 
+FlagEntry = List[str|Tuple[str, List[int|float]]]
+
 @dataclass(frozen=True)
 class BlockMapping:
 	"""A mapping of block categories to block IDs"""
@@ -134,7 +133,7 @@ class BlockMapping:
 		for flag in self.flags:
 			if isinstance(flag, str):
 				lines.append(f"bool {flag}(int id) {{")
-				mapping = {f'id == {entry['id']}' for entry in self.mapping if flag in entry['flags']}
+				mapping = [f'id == {entry['id']}' for entry in self.mapping if flag in entry['flags']]
 				lines.append(f"\treturn {' || '.join(mapping) if mapping else 'false'};")
 				lines.append("}")
 			else:
@@ -145,7 +144,7 @@ class BlockMapping:
 				else:
 					lines.append(f"int {self.function_namer(flag)}(int id) {{")
 				for i in indices:
-					mapping = {f'id == {entry["id"]}' for entry in self.mapping if f'{flag}.{i}' in entry['flags']}
+					mapping = [f'id == {entry["id"]}' for entry in self.mapping if f'{flag}.{i}' in entry['flags']]
 					if mapping:
 						lines.append("\tif (" + ' || '.join(mapping) + ") {")
 						lines.append(f"\t\treturn {i};")
