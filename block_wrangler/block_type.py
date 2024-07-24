@@ -2,7 +2,8 @@
 
 from dataclasses import dataclass, field
 import inspect
-from typing import ClassVar, Dict, Final, Literal, Tuple, get_args, get_origin, overload
+from itertools import product
+from typing import ClassVar, Dict, Final, Iterable, Literal, Tuple, get_args, get_origin, overload
 
 @dataclass(frozen=True)
 class BlockType:
@@ -18,6 +19,17 @@ class BlockType:
 	def matches[T:BlockState](self, signature: type[T]) -> bool:
 		return all(name in self.properties and set(self.properties[name]) == set(values) for name, values in signature.typed_properties.items())
 	
+	def states(self) -> Iterable['BlockState']:
+		"""Produces an iterable of all possible States for this block, or a single empty state if there are no properties"""
+		return (BlockState(self, state) for state in self.state_tuples())
+	
+	def state_tuples(self) -> Iterable[Tuple[int, ...]]:
+		"""Produces an iterable of tuples representing all possible raw states for this block, or a single empty state if there are no properties"""
+		if self.properties:
+			return product(*[range(len(vals)) for vals in self.properties.values()])
+		else:
+			return [tuple()]
+
 	def __str__(self) -> str:
 		return self.path
 	
@@ -35,7 +47,7 @@ class BlockType:
 			return False
 		return all(set(self.properties[name]) == set(other.properties[name]) for name in self.properties.keys())
 
-@dataclass(frozen=True, repr=False, init=False)
+@dataclass(frozen=True,repr=False, init=False)
 class BlockState:
 	"""A concrete state of a block type; subclasses may be used to type-hint parts of the state"""
 	block:'BlockType'
