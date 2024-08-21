@@ -132,7 +132,7 @@ class BlockMapping:
 
 		for flag in self.flags:
 			if isinstance(flag, str):
-				lines.append(f"bool {flag}(int id) {{")
+				lines.append(f"bool {self.function_namer(flag)}(int id) {{")
 				mapping = [f'id == {entry['id']}' for entry in self.mapping if flag in entry['flags']]
 				lines.append(f"\treturn {' || '.join(mapping) if mapping else 'false'};")
 				lines.append("}")
