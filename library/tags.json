@@ -105,6 +105,9 @@
               "name":"sway/floating"
             },
             {
+              "name":"sway/full"
+            },
+            {
               "name":"sway/hanging"
             },
             {
@@ -118,9 +121,6 @@
             },
             {
               "name":"sway/upper"
-            },
-            {
-              "name":"sway/whole"
             }
           ]
         },
