@@ -9,7 +9,8 @@ build-backend = "setuptools.build_meta"
 name = "block_wrangler"
 version = "0.0.5"
 dependencies = [
-	"rich==13.7.1"
+	"rich==13.7.1",
+	"case-converter==1.1.0"
 ]
 dynamic = ["readme"]
 

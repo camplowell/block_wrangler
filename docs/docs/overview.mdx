@@ -23,9 +23,14 @@ Vanilla Minecraft includes a number of tags, such as `minecraft:crops` and `mine
 
 Block Wrangler also includes a number of common tags, such as `sway` and `lights`, which can be used to kickstart your own definitions.
 
+### Flags
+
+A **Flag** represents a named property that is exposed to shaders.
+When defining a flag, you can specify a set of blocks that it applies to by using a combination of tags, filters, and marnually entered collections of blocks.
+
 ### Mappings
 
-Block Wrangler uses **mappings** to map block types to string-based identifiers that I call flags.
+Block Wrangler uses **mappings** to convey Flags to shaders.
 This is the only part of Block Wrangler that knows about the numerical IDs of blocks, and is used as part of the export process.
 
 ### Block types

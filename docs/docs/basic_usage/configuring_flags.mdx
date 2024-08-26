@@ -1,0 +1,27 @@
+# Configuring Flags
+
+All built-in flags have an inner `Config` class that is used to customize their behavior, and serve as factory classes for the Flag type.
+
+Configuration classes can also provide default values for one another by combining them using the `|` operator:
+```python
+
+from block_wrangler import BlockMapping, FlagSequence, EnumFlag
+from case_transform import pascalcase, macrocase
+
+Sequence = FlagSequence.Config(
+    function_name = lambda flag: return f"Get{pascalcase(flag)}"
+)
+Enum = EnumFlag.Config(
+    enum_value_name = lambda flag, value: return f"{pascalcase(flag)__{macrocase(value)}}"
+) | Sequence
+
+mapping = BlockMapping.solve({
+    'sway': Enum({
+        'top': tags['sway/upper'],
+        'bottom': tags['sway/lower'] + tags['sway/short'],
+        'full': tags['sway/full'],
+        'floating': tags['sway/floating'],
+        'hanging': tags['sway/hanging'],
+    })
+})
+```

@@ -6,41 +6,78 @@ description: How to define flags for use in shaders
 # Flag Types
 
 Flags are functions that can be used to query information about a block inside a shader.
+Block Wrangler comes with a number of built-in flag types:
 
-They come in two flavors:
+## Flag
 
-## Boolean Flags
-
-Boolean flags result in a function with the following signature:
+Standard `Flag` objects generate a function that returns a boolean:
 
 ```glsl
 bool flag(int id)
 ```
 
-They are declared by handing the BlockMapping constructor a single block collection.  
+They are declared by passing the `Flag` constructor a single block collection.
 For example:
 ```python
 BlockMapping.solve({
-	'flag': tags['minecraft:flowers'] + blocks('minecraft:leaves')
+	'flag': Flag(tags['minecraft:flowers'] + blocks('minecraft:leaves'))
 })
 ```
 
-## Series Flags
+## IntFlag
 
-Series flags result in a function with one of two signatures:
+Integer flags result in a function that returns an integer:
 
 ```glsl
 int flag(int id)
 ```
-or
+
+They can be declared by passing the `IntFlag`constructor a `Dict[int, BlockCollection]`. They can also be passed a default value for blocks that don't match any of the values.  
+For example:
+```python
+BlockMapping.solve({
+	'flag': IntFlag({i:tags['lights/{i}' for i in range(1, 16)]}, default=0)
+})
+```
+
+## FloatFlag
+
+Float flags result in a function that returns a float:
 ```glsl
 float flag(int id)
 ```
 
-They are defined by passing a `Dict[int|float, BlockCollection]` to the `SeriesFlag` constructor.  
+They are defined by passing the `FloatFlag` constructor a `Dict[float|Decimal, BlockCollection]`. They can likewise be passed a default value for blocks that don't match any of the values.
 For example:
 ```python
 BlockMapping.solve({
-	'flag': {i:tags['lights/{i}' for i in range(1, 16)]}
+	'flag': FloatFlag({
+		0.5: blocks('minecraft:leaves'),
+		1.2: blocks('minecraft:oak_log')
+	}, default=0.0)
 })
 ```
+
+
+## EnumFlag
+
+Enum flags result in a function that emulates an enum:
+```glsl
+switch(GetSway(id)) {
+	case Sway_LOWER: return A;
+	case Sway_UPPER: return B;
+	case Sway_FULL: return C;
+	default: return D;
+}
+```
+
+They are declared by passing the `EnumFlag` constructor a `Dict[str, BlockCollection]`. They can also be passed a default value for blocks that don't match any of the values.  
+For example:
+```python
+BlockMapping.solve({
+	'flag': EnumFlag({
+		'lower': tags['sway/lower'],
+		'upper': tags['sway/upper'],
+		'full': tags['sway/full']
+	}, default='NONE')
+})

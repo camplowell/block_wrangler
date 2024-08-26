@@ -28,7 +28,8 @@ In the enclosing folder, run this command to populate your new repository with t
 cookiecutter gh:camplowell/shader_templates -f
 ```
 :::tip
-This template includes a `.gitignore` file to prevent committing virtual environments, cache files, and other things you probably don't want to commit.
+This template includes a `.gitignore` file to prevent committing virtual environments, cache files, and other things you probably don't want to commit.  
+However, you may need to modify it to get everything working perfectly for you.
 :::
 
 Block Wrangler is ready to use! Don't forget to commit and push your changes to your repository.
@@ -93,7 +94,8 @@ pip install -e 'central/folder/block_wrangler[fuzzy_tags]'
 
 ### Repository maintenance
 
-Add [this `.gitignore` file](https://github.com/github/gitignore/blob/main/Python.gitignore) to your repository to prevent committing virtual environments, cache files, and other things you probably don't want to commit.
+I recommend adding [this `.gitignore` file](https://github.com/github/gitignore/blob/main/Python.gitignore) to your repository.  
+You may need to modify it to get everything working perfectly for you, but it's a good starting point to make sure you don't accidentally commit your pycache or virtual environments to the repository.
 
 
 Generate a requirements.txt file using:
@@ -117,8 +119,14 @@ def main():
 	tags = load_tags()
 
 	mapping = BlockMapping.solve({
-		'sway': tags['sway'],
-		'sway_bottom': tags['sway/lower'] + tags['sway/short'], # Tags can be combined with the +, -, and & operators
+		'sway': EnumFlag({
+			'upper': tags['sway/upper'],
+			'lower': tags['sway/lower'],
+			'hanging': tags['sway/hanging'],
+			'floating': tags['sway/floating'],
+			'full': tags['sway/full']
+		}),
+		'sway_slow': Flag(tags['sway/slow']),
 		'crops': tags['minecraft:crops'], # Vanilla tags are included
 		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
 	})

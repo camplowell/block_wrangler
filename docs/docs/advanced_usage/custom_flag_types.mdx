@@ -1,0 +1,51 @@
+# Custom Flag Types
+
+Block Wrangler supports the most common flag types:
+- Booleans,
+- Integers,
+- Floats,
+- Enums
+
+However, the user can also define their own custom flag types.
+
+## The structure of a flag
+
+A Flag is responsible for resolving its input into a set of boolean flags, and for rendering a decoder function in GLSL.
+
+### Expanding flags into boolean flags
+
+Any Flag type must implement the `expand_flags` method, which takes a flag name and returns a `dict[str, BlockCollection]`.
+The resulting keys are the names of the boolean flags, and must be unique. This is why the method is passed the flag name.
+The values of the dictionary are the blocks that make up each boolean flag.
+
+### Rendering the decoder function
+
+The `render_decoder` method takes the flag name, the mapping of block IDs to flags, and the global configuration.
+The output is a `Generator[str, Any, None]` that yields one line of GLSL at a time.
+
+:::tip
+The global configuration contains the `id_type` field, which is the type of the numerical ID the decoder function shouold expect.
+:::
+
+### the Config class
+Many Flag types have an inner `Config` class that is used to customize the behavior of the Flag, and serve as factory classes for the Flag type.
+They should be subclassed alongside the Flag class.  
+For the most part, Configuration classes behave like normal dataclasses, and should define fields in the same way. All fields should be optional for best results.
+
+When subclassing an existing Flag type, you should override the `Config` class's `__call__` method, so that it creates the correct Flag type when called.  
+
+
+
+## The FlagSequence class
+Much of this functionality is provided by the FlagSequence class.
+It is still quite flexible due to the use of helper methods.
+
+### return_type
+The `return_type` property is responsible for determining the return type of the decoder function.
+
+### render_value
+The `render_value` method is responsible for rendering a value of the flag into GLSL code.
+In many cases, 
+
+### decoder_prefix and decoder_suffix
+The `decoder_prefix` and `decoder_suffix` methods are responsible for adding any additional code that should appear before or after the decoder function.

@@ -46,7 +46,7 @@ def load_tags(library:TagLibrary):
 			'minecraft:lantern'
 		), lambda state: state.hanging == 'true')
 
-	library.touch('sway/whole') \
+	library.touch('sway/full') \
 		.add(library.touch('minecraft:leaves'))
 	
 	library.touch('sway/floating') \
