@@ -39,7 +39,8 @@ def load_tags(library:TagLibrary):
 	
 	library.touch('sway/hanging') \
 		.add(block_types(
-			'minecraft:hanging_roots'
+			'minecraft:hanging_roots',
+			'minecraft:pale_hanging_moss'
 		)) \
 		.add(block_types(
 			'minecraft:mangrove_propagule', 
