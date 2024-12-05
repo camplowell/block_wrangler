@@ -12,6 +12,7 @@ dependencies = [
 	"rich==13.7.1",
 	"case-converter==1.1.0"
 ]
+description = "Use block features instead of block IDs! (for Minecraft shaderpacks)"
 dynamic = ["readme"]
 
 [project.urls]
