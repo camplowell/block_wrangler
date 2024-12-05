@@ -139,9 +139,6 @@
           "name":"minecraft:acacia_logs"
         },
         {
-          "name":"minecraft:air"
-        },
-        {
           "name":"minecraft:all_hanging_signs"
         },
         {
@@ -187,10 +184,16 @@
           "name":"minecraft:base_stone_overworld"
         },
         {
+          "name":"minecraft:bats_spawnable_on"
+        },
+        {
           "name":"minecraft:beacon_base_blocks"
         },
         {
           "name":"minecraft:beds"
+        },
+        {
+          "name":"minecraft:bee_attractive"
         },
         {
           "name":"minecraft:bee_growables"
@@ -493,6 +496,9 @@
         },
         {
           "name":"minecraft:overworld_natural_logs"
+        },
+        {
+          "name":"minecraft:pale_oak_logs"
         },
         {
           "name":"minecraft:parrots_spawnable_on"
