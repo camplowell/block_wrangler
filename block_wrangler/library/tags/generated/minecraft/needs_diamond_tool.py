@@ -7,8 +7,8 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:ancient_debris',
-		'minecraft:respawn_anchor',
-		'minecraft:obsidian',
 		'minecraft:crying_obsidian',
 		'minecraft:netherite_block',
+		'minecraft:obsidian',
+		'minecraft:respawn_anchor',
 	strict=False))

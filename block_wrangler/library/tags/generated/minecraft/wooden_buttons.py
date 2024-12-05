@@ -6,15 +6,16 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:wooden_buttons')
 	
 	tag.add(block_types(
-		'minecraft:spruce_button',
-		'minecraft:dark_oak_button',
-		'minecraft:cherry_button',
+		'minecraft:acacia_button',
 		'minecraft:bamboo_button',
 		'minecraft:birch_button',
-		'minecraft:warped_button',
-		'minecraft:jungle_button',
+		'minecraft:cherry_button',
 		'minecraft:crimson_button',
-		'minecraft:acacia_button',
-		'minecraft:oak_button',
+		'minecraft:dark_oak_button',
+		'minecraft:jungle_button',
 		'minecraft:mangrove_button',
+		'minecraft:oak_button',
+		'minecraft:pale_oak_button',
+		'minecraft:spruce_button',
+		'minecraft:warped_button',
 	strict=False))

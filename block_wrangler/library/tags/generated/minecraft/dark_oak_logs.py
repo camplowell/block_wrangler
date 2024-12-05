@@ -7,7 +7,7 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:dark_oak_log',
-		'minecraft:stripped_dark_oak_wood',
-		'minecraft:stripped_dark_oak_log',
 		'minecraft:dark_oak_wood',
+		'minecraft:stripped_dark_oak_log',
+		'minecraft:stripped_dark_oak_wood',
 	strict=False))

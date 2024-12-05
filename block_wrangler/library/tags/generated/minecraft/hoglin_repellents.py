@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:hoglin_repellents')
 	
 	tag.add(block_types(
-		'minecraft:respawn_anchor',
-		'minecraft:potted_warped_fungus',
 		'minecraft:nether_portal',
+		'minecraft:potted_warped_fungus',
+		'minecraft:respawn_anchor',
 		'minecraft:warped_fungus',
 	strict=False))

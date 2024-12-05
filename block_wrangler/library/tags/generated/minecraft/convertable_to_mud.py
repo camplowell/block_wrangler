@@ -7,6 +7,6 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:coarse_dirt',
-		'minecraft:rooted_dirt',
 		'minecraft:dirt',
+		'minecraft:rooted_dirt',
 	strict=False))

@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:diamond_ores')
 	
 	tag.add(block_types(
-		'minecraft:diamond_ore',
 		'minecraft:deepslate_diamond_ore',
+		'minecraft:diamond_ore',
 	strict=False))

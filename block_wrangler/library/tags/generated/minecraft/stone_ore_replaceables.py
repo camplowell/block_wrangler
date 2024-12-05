@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:stone_ore_replaceables')
 	
 	tag.add(block_types(
-		'minecraft:diorite',
 		'minecraft:andesite',
+		'minecraft:diorite',
 		'minecraft:granite',
 		'minecraft:stone',
 	strict=False))

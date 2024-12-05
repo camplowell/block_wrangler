@@ -7,6 +7,6 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:deepslate_gold_ore',
-		'minecraft:nether_gold_ore',
 		'minecraft:gold_ore',
+		'minecraft:nether_gold_ore',
 	strict=False))

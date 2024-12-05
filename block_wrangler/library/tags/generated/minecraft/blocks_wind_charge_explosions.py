@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:blocks_wind_charge_explosions')
 	
 	tag.add(block_types(
-		'minecraft:bedrock',
 		'minecraft:barrier',
+		'minecraft:bedrock',
 	strict=False))

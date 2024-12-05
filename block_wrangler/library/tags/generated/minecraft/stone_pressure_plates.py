@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:stone_pressure_plates')
 	
 	tag.add(block_types(
-		'minecraft:stone_pressure_plate',
 		'minecraft:polished_blackstone_pressure_plate',
+		'minecraft:stone_pressure_plate',
 	strict=False))

@@ -7,9 +7,11 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:wool_carpets'))
 	
 	tag.add(block_types(
-		'minecraft:snow',
-		'minecraft:moss_carpet',
-		'minecraft:warped_roots',
 		'minecraft:crimson_roots',
+		'minecraft:moss_carpet',
 		'minecraft:nether_sprouts',
+		'minecraft:pale_moss_carpet',
+		'minecraft:resin_clump',
+		'minecraft:snow',
+		'minecraft:warped_roots',
 	strict=False))

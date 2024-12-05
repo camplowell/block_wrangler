@@ -6,7 +6,7 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:sand')
 	
 	tag.add(block_types(
-		'minecraft:sand',
 		'minecraft:red_sand',
+		'minecraft:sand',
 		'minecraft:suspicious_sand',
 	strict=False))

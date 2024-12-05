@@ -7,6 +7,6 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:barrier',
-		'minecraft:packed_ice',
 		'minecraft:ice',
+		'minecraft:packed_ice',
 	strict=False))

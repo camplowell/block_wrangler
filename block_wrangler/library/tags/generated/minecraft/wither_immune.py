@@ -6,17 +6,17 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:wither_immune')
 	
 	tag.add(block_types(
-		'minecraft:end_gateway',
-		'minecraft:light',
-		'minecraft:end_portal',
+		'minecraft:barrier',
 		'minecraft:bedrock',
-		'minecraft:repeating_command_block',
+		'minecraft:chain_command_block',
+		'minecraft:command_block',
+		'minecraft:end_gateway',
+		'minecraft:end_portal',
+		'minecraft:end_portal_frame',
+		'minecraft:jigsaw',
+		'minecraft:light',
 		'minecraft:moving_piston',
 		'minecraft:reinforced_deepslate',
-		'minecraft:barrier',
+		'minecraft:repeating_command_block',
 		'minecraft:structure_block',
-		'minecraft:chain_command_block',
-		'minecraft:end_portal_frame',
-		'minecraft:command_block',
-		'minecraft:jigsaw',
 	strict=False))

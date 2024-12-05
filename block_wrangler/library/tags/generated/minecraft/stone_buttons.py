@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:stone_buttons')
 	
 	tag.add(block_types(
-		'minecraft:stone_button',
 		'minecraft:polished_blackstone_button',
+		'minecraft:stone_button',
 	strict=False))

@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:mushroom_grow_block')
 	
 	tag.add(block_types(
-		'minecraft:warped_nylium',
+		'minecraft:crimson_nylium',
 		'minecraft:mycelium',
 		'minecraft:podzol',
-		'minecraft:crimson_nylium',
+		'minecraft:warped_nylium',
 	strict=False))

@@ -7,9 +7,9 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:coral_plants'))
 	
 	tag.add(block_types(
-		'minecraft:fire_coral_fan',
-		'minecraft:bubble_coral_fan',
 		'minecraft:brain_coral_fan',
+		'minecraft:bubble_coral_fan',
+		'minecraft:fire_coral_fan',
 		'minecraft:horn_coral_fan',
 		'minecraft:tube_coral_fan',
 	strict=False))

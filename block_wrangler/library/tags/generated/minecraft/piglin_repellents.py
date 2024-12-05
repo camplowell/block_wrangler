@@ -6,9 +6,9 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:piglin_repellents')
 	
 	tag.add(block_types(
-		'minecraft:soul_fire',
-		'minecraft:soul_wall_torch',
 		'minecraft:soul_campfire',
-		'minecraft:soul_torch',
+		'minecraft:soul_fire',
 		'minecraft:soul_lantern',
+		'minecraft:soul_torch',
+		'minecraft:soul_wall_torch',
 	strict=False))

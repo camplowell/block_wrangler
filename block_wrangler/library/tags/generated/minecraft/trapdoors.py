@@ -7,13 +7,13 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:wooden_trapdoors'))
 	
 	tag.add(block_types(
-		'minecraft:waxed_copper_trapdoor',
-		'minecraft:exposed_copper_trapdoor',
-		'minecraft:weathered_copper_trapdoor',
-		'minecraft:waxed_exposed_copper_trapdoor',
-		'minecraft:iron_trapdoor',
-		'minecraft:waxed_weathered_copper_trapdoor',
-		'minecraft:waxed_oxidized_copper_trapdoor',
 		'minecraft:copper_trapdoor',
+		'minecraft:exposed_copper_trapdoor',
+		'minecraft:iron_trapdoor',
 		'minecraft:oxidized_copper_trapdoor',
+		'minecraft:waxed_copper_trapdoor',
+		'minecraft:waxed_exposed_copper_trapdoor',
+		'minecraft:waxed_oxidized_copper_trapdoor',
+		'minecraft:waxed_weathered_copper_trapdoor',
+		'minecraft:weathered_copper_trapdoor',
 	strict=False))

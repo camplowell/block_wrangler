@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:spruce_logs')
 	
 	tag.add(block_types(
-		'minecraft:stripped_spruce_wood',
-		'minecraft:stripped_spruce_log',
 		'minecraft:spruce_log',
 		'minecraft:spruce_wood',
+		'minecraft:stripped_spruce_log',
+		'minecraft:stripped_spruce_wood',
 	strict=False))

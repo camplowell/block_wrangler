@@ -7,7 +7,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:moss_replaceable'))
 	
 	tag.add(block_types(
+		'minecraft:clay',
 		'minecraft:gravel',
 		'minecraft:sand',
-		'minecraft:clay',
 	strict=False))

@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:rabbits_spawnable_on')
 	
 	tag.add(block_types(
-		'minecraft:snow',
-		'minecraft:sand',
 		'minecraft:grass_block',
+		'minecraft:sand',
+		'minecraft:snow',
 		'minecraft:snow_block',
 	strict=False))

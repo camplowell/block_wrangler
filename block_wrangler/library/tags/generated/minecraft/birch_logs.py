@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:birch_logs')
 	
 	tag.add(block_types(
-		'minecraft:stripped_birch_log',
-		'minecraft:birch_wood',
 		'minecraft:birch_log',
+		'minecraft:birch_wood',
+		'minecraft:stripped_birch_log',
 		'minecraft:stripped_birch_wood',
 	strict=False))

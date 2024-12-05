@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:oak_logs')
 	
 	tag.add(block_types(
-		'minecraft:stripped_oak_wood',
-		'minecraft:stripped_oak_log',
-		'minecraft:oak_wood',
 		'minecraft:oak_log',
+		'minecraft:oak_wood',
+		'minecraft:stripped_oak_log',
+		'minecraft:stripped_oak_wood',
 	strict=False))

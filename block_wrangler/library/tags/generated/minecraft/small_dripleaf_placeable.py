@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:small_dripleaf_placeable')
 	
 	tag.add(block_types(
-		'minecraft:moss_block',
 		'minecraft:clay',
+		'minecraft:moss_block',
 	strict=False))

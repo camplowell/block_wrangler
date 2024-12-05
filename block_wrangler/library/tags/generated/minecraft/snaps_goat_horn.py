@@ -7,10 +7,10 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:overworld_natural_logs'))
 	
 	tag.add(block_types(
-		'minecraft:packed_ice',
-		'minecraft:copper_ore',
-		'minecraft:iron_ore',
-		'minecraft:stone',
 		'minecraft:coal_ore',
+		'minecraft:copper_ore',
 		'minecraft:emerald_ore',
+		'minecraft:iron_ore',
+		'minecraft:packed_ice',
+		'minecraft:stone',
 	strict=False))

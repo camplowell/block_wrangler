@@ -6,10 +6,10 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:geode_invalid_blocks')
 	
 	tag.add(block_types(
-		'minecraft:packed_ice',
-		'minecraft:ice',
-		'minecraft:blue_ice',
 		'minecraft:bedrock',
+		'minecraft:blue_ice',
+		'minecraft:ice',
 		'minecraft:lava',
+		'minecraft:packed_ice',
 		'minecraft:water',
 	strict=False))

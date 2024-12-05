@@ -6,7 +6,7 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:base_stone_nether')
 	
 	tag.add(block_types(
-		'minecraft:blackstone',
 		'minecraft:basalt',
+		'minecraft:blackstone',
 		'minecraft:netherrack',
 	strict=False))

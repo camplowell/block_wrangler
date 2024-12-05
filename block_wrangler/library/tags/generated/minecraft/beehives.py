@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:beehives')
 	
 	tag.add(block_types(
-		'minecraft:beehive',
 		'minecraft:bee_nest',
+		'minecraft:beehive',
 	strict=False))

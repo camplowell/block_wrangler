@@ -9,10 +9,10 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:barrel',
+		'minecraft:chest',
+		'minecraft:ender_chest',
 		'minecraft:gilded_blackstone',
+		'minecraft:gold_block',
 		'minecraft:raw_gold_block',
 		'minecraft:trapped_chest',
-		'minecraft:ender_chest',
-		'minecraft:chest',
-		'minecraft:gold_block',
 	strict=False))

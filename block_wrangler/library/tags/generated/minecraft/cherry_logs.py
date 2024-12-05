@@ -7,7 +7,7 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:cherry_log',
+		'minecraft:cherry_wood',
 		'minecraft:stripped_cherry_log',
 		'minecraft:stripped_cherry_wood',
-		'minecraft:cherry_wood',
 	strict=False))

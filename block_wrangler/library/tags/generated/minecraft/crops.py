@@ -6,12 +6,12 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:crops')
 	
 	tag.add(block_types(
-		'minecraft:pitcher_crop',
+		'minecraft:beetroots',
+		'minecraft:carrots',
 		'minecraft:melon_stem',
+		'minecraft:pitcher_crop',
 		'minecraft:potatoes',
 		'minecraft:pumpkin_stem',
-		'minecraft:wheat',
-		'minecraft:carrots',
 		'minecraft:torchflower_crop',
-		'minecraft:beetroots',
+		'minecraft:wheat',
 	strict=False))

@@ -7,7 +7,7 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:chiseled_stone_bricks',
-		'minecraft:stone_bricks',
-		'minecraft:mossy_stone_bricks',
 		'minecraft:cracked_stone_bricks',
+		'minecraft:mossy_stone_bricks',
+		'minecraft:stone_bricks',
 	strict=False))

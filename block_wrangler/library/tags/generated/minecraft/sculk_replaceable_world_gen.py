@@ -7,10 +7,10 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:sculk_replaceable'))
 	
 	tag.add(block_types(
-		'minecraft:deepslate_tiles',
-		'minecraft:deepslate_bricks',
 		'minecraft:cobbled_deepslate',
 		'minecraft:cracked_deepslate_bricks',
 		'minecraft:cracked_deepslate_tiles',
+		'minecraft:deepslate_bricks',
+		'minecraft:deepslate_tiles',
 		'minecraft:polished_deepslate',
 	strict=False))

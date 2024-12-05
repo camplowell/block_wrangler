@@ -6,10 +6,10 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:base_stone_overworld')
 	
 	tag.add(block_types(
-		'minecraft:granite',
-		'minecraft:deepslate',
-		'minecraft:stone',
-		'minecraft:diorite',
 		'minecraft:andesite',
+		'minecraft:deepslate',
+		'minecraft:diorite',
+		'minecraft:granite',
+		'minecraft:stone',
 		'minecraft:tuff',
 	strict=False))

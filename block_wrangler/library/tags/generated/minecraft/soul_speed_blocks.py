@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:soul_speed_blocks')
 	
 	tag.add(block_types(
-		'minecraft:soul_soil',
 		'minecraft:soul_sand',
+		'minecraft:soul_soil',
 	strict=False))

@@ -7,6 +7,6 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:anvil',
-		'minecraft:damaged_anvil',
 		'minecraft:chipped_anvil',
+		'minecraft:damaged_anvil',
 	strict=False))

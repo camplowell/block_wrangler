@@ -6,7 +6,7 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:snow')
 	
 	tag.add(block_types(
-		'minecraft:snow',
 		'minecraft:powder_snow',
+		'minecraft:snow',
 		'minecraft:snow_block',
 	strict=False))

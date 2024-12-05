@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:cauldrons')
 	
 	tag.add(block_types(
-		'minecraft:powder_snow_cauldron',
-		'minecraft:lava_cauldron',
 		'minecraft:cauldron',
+		'minecraft:lava_cauldron',
+		'minecraft:powder_snow_cauldron',
 		'minecraft:water_cauldron',
 	strict=False))

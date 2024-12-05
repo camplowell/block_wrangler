@@ -4,92 +4,93 @@ from block_wrangler.library.factories import block_types
 
 def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:mineable/axe')
-	tag.add(library.touch('minecraft:banners'))
-	tag.add(library.touch('minecraft:wooden_trapdoors'))
-	tag.add(library.touch('minecraft:bamboo_blocks'))
-	tag.add(library.touch('minecraft:wooden_fences'))
-	tag.add(library.touch('minecraft:wooden_pressure_plates'))
-	tag.add(library.touch('minecraft:saplings'))
-	tag.add(library.touch('minecraft:wooden_stairs'))
-	tag.add(library.touch('minecraft:signs'))
 	tag.add(library.touch('minecraft:all_hanging_signs'))
-	tag.add(library.touch('minecraft:wooden_slabs'))
-	tag.add(library.touch('minecraft:wooden_buttons'))
-	tag.add(library.touch('minecraft:wooden_doors'))
+	tag.add(library.touch('minecraft:bamboo_blocks'))
+	tag.add(library.touch('minecraft:banners'))
 	tag.add(library.touch('minecraft:fence_gates'))
 	tag.add(library.touch('minecraft:logs'))
 	tag.add(library.touch('minecraft:planks'))
+	tag.add(library.touch('minecraft:saplings'))
+	tag.add(library.touch('minecraft:signs'))
+	tag.add(library.touch('minecraft:wooden_buttons'))
+	tag.add(library.touch('minecraft:wooden_doors'))
+	tag.add(library.touch('minecraft:wooden_fences'))
+	tag.add(library.touch('minecraft:wooden_pressure_plates'))
+	tag.add(library.touch('minecraft:wooden_slabs'))
+	tag.add(library.touch('minecraft:wooden_stairs'))
+	tag.add(library.touch('minecraft:wooden_trapdoors'))
 	
 	tag.add(block_types(
-		'minecraft:cave_vines',
-		'minecraft:azalea',
-		'minecraft:bee_nest',
-		'minecraft:fern',
-		'minecraft:twisting_vines_plant',
-		'minecraft:chorus_flower',
-		'minecraft:spore_blossom',
-		'minecraft:carrots',
-		'minecraft:vine',
-		'minecraft:fletching_table',
-		'minecraft:beehive',
-		'minecraft:big_dripleaf',
-		'minecraft:brown_mushroom_block',
-		'minecraft:carved_pumpkin',
-		'minecraft:bamboo_mosaic_stairs',
-		'minecraft:bamboo_mosaic',
-		'minecraft:loom',
-		'minecraft:dead_bush',
-		'minecraft:scaffolding',
-		'minecraft:jack_o_lantern',
-		'minecraft:big_dripleaf_stem',
-		'minecraft:chiseled_bookshelf',
-		'minecraft:twisting_vines',
-		'minecraft:warped_fungus',
-		'minecraft:bamboo_mosaic_slab',
-		'minecraft:note_block',
-		'minecraft:short_grass',
-		'minecraft:hanging_roots',
-		'minecraft:soul_campfire',
-		'minecraft:chest',
-		'minecraft:tall_grass',
 		'minecraft:attached_melon_stem',
-		'minecraft:bamboo',
-		'minecraft:mangrove_roots',
-		'minecraft:bookshelf',
-		'minecraft:weeping_vines',
-		'minecraft:ladder',
-		'minecraft:crimson_fungus',
-		'minecraft:melon_stem',
-		'minecraft:red_mushroom',
-		'minecraft:cocoa',
-		'minecraft:jukebox',
-		'minecraft:mushroom_stem',
-		'minecraft:small_dripleaf',
-		'minecraft:campfire',
-		'minecraft:crafting_table',
-		'minecraft:lectern',
 		'minecraft:attached_pumpkin_stem',
-		'minecraft:melon',
-		'minecraft:daylight_detector',
-		'minecraft:cave_vines_plant',
+		'minecraft:azalea',
+		'minecraft:bamboo',
+		'minecraft:bamboo_mosaic',
+		'minecraft:bamboo_mosaic_slab',
+		'minecraft:bamboo_mosaic_stairs',
 		'minecraft:barrel',
+		'minecraft:bee_nest',
+		'minecraft:beehive',
+		'minecraft:beetroots',
+		'minecraft:big_dripleaf',
+		'minecraft:big_dripleaf_stem',
+		'minecraft:bookshelf',
+		'minecraft:brown_mushroom',
+		'minecraft:brown_mushroom_block',
+		'minecraft:campfire',
+		'minecraft:carrots',
+		'minecraft:cartography_table',
+		'minecraft:carved_pumpkin',
+		'minecraft:cave_vines',
+		'minecraft:cave_vines_plant',
+		'minecraft:chest',
+		'minecraft:chiseled_bookshelf',
+		'minecraft:chorus_flower',
 		'minecraft:chorus_plant',
-		'minecraft:large_fern',
-		'minecraft:red_mushroom_block',
-		'minecraft:potatoes',
+		'minecraft:cocoa',
 		'minecraft:composter',
+		'minecraft:crafting_table',
+		'minecraft:creaking_heart',
+		'minecraft:crimson_fungus',
+		'minecraft:daylight_detector',
+		'minecraft:dead_bush',
+		'minecraft:fern',
+		'minecraft:fletching_table',
+		'minecraft:glow_lichen',
+		'minecraft:hanging_roots',
+		'minecraft:jack_o_lantern',
+		'minecraft:jukebox',
+		'minecraft:ladder',
+		'minecraft:large_fern',
+		'minecraft:lectern',
+		'minecraft:lily_pad',
+		'minecraft:loom',
+		'minecraft:mangrove_roots',
+		'minecraft:melon',
+		'minecraft:melon_stem',
+		'minecraft:mushroom_stem',
+		'minecraft:nether_wart',
+		'minecraft:note_block',
+		'minecraft:potatoes',
+		'minecraft:pumpkin',
 		'minecraft:pumpkin_stem',
+		'minecraft:red_mushroom',
+		'minecraft:red_mushroom_block',
+		'minecraft:scaffolding',
+		'minecraft:short_grass',
+		'minecraft:small_dripleaf',
+		'minecraft:smithing_table',
+		'minecraft:soul_campfire',
+		'minecraft:spore_blossom',
 		'minecraft:sugar_cane',
 		'minecraft:sweet_berry_bush',
-		'minecraft:wheat',
-		'minecraft:weeping_vines_plant',
-		'minecraft:smithing_table',
-		'minecraft:glow_lichen',
-		'minecraft:brown_mushroom',
+		'minecraft:tall_grass',
 		'minecraft:trapped_chest',
-		'minecraft:beetroots',
-		'minecraft:pumpkin',
-		'minecraft:nether_wart',
-		'minecraft:lily_pad',
-		'minecraft:cartography_table',
+		'minecraft:twisting_vines',
+		'minecraft:twisting_vines_plant',
+		'minecraft:vine',
+		'minecraft:warped_fungus',
+		'minecraft:weeping_vines',
+		'minecraft:weeping_vines_plant',
+		'minecraft:wheat',
 	strict=False))

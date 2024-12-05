@@ -11,6 +11,6 @@ def load_tags(library:TagLibrary):
 	tag.add(block_types(
 		'minecraft:redstone_torch',
 		'minecraft:soul_torch',
-		'minecraft:tripwire',
 		'minecraft:torch',
+		'minecraft:tripwire',
 	strict=False))

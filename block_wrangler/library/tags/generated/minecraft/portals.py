@@ -7,6 +7,6 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:end_gateway',
-		'minecraft:nether_portal',
 		'minecraft:end_portal',
+		'minecraft:nether_portal',
 	strict=False))

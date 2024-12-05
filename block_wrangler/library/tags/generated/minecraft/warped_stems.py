@@ -7,7 +7,7 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:stripped_warped_hyphae',
-		'minecraft:warped_hyphae',
 		'minecraft:stripped_warped_stem',
+		'minecraft:warped_hyphae',
 		'minecraft:warped_stem',
 	strict=False))

@@ -6,6 +6,6 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:fire')
 	
 	tag.add(block_types(
-		'minecraft:soul_fire',
 		'minecraft:fire',
+		'minecraft:soul_fire',
 	strict=False))

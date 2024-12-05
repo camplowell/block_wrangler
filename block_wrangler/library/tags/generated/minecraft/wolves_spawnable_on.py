@@ -6,9 +6,9 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:wolves_spawnable_on')
 	
 	tag.add(block_types(
-		'minecraft:snow',
-		'minecraft:podzol',
-		'minecraft:grass_block',
 		'minecraft:coarse_dirt',
+		'minecraft:grass_block',
+		'minecraft:podzol',
+		'minecraft:snow',
 		'minecraft:snow_block',
 	strict=False))

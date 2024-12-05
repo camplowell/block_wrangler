@@ -6,8 +6,8 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:acacia_logs')
 	
 	tag.add(block_types(
-		'minecraft:stripped_acacia_log',
-		'minecraft:stripped_acacia_wood',
 		'minecraft:acacia_log',
 		'minecraft:acacia_wood',
+		'minecraft:stripped_acacia_log',
+		'minecraft:stripped_acacia_wood',
 	strict=False))
