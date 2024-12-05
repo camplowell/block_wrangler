@@ -26,10 +26,16 @@ def main():
 	tags = load_tags()
 
 	mapping = BlockMapping.solve({
-		'sway': tags['sway'],
-		'sway_bottom': tags['sway/lower'] + tags['sway/short'], # Tags can be combined with the +, -, and & operators
-		'crops': tags['minecraft:crops'], # Vanilla tags are included
-		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
+		'sway': EnumFlag({
+			'upper': tags['sway/upper'],
+			'lower': tags['sway/lower'],
+			'hanging': tags['sway/hanging'],
+			'floating': tags['sway/floating'],
+			'full': tags['sway/full']
+		}),
+		'sway_slow': Flag(tags['sway/slow']),
+		'crops': Flag(tags['minecraft:crops']), # Vanilla tags are included
+		'water': Flag(blocks('minecraft:water')) # Individual blocks can also be referenced by name
 	})
 
 	with shaderpack_root.joinpath('shaders/block.properties').open('w') as f:

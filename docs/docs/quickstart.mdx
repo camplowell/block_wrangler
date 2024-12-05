@@ -127,8 +127,8 @@ def main():
 			'full': tags['sway/full']
 		}),
 		'sway_slow': Flag(tags['sway/slow']),
-		'crops': tags['minecraft:crops'], # Vanilla tags are included
-		'water': blocks('minecraft:water') # Individual blocks can also be referenced by name
+		'crops': Flag(tags['minecraft:crops']), # Vanilla tags are included
+		'water': Flag(blocks('minecraft:water')) # Individual blocks can also be referenced by name
 	})
 
 	with shaderpack_root.joinpath('shaders/block.properties').open('w') as f:
