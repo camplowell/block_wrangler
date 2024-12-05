@@ -1,6 +1,7 @@
 from typing import Iterable
 import unittest
-from block_wrangler import BlockType, Blocks, BlockMapping
+from block_wrangler import BlockType, Blocks, BlockMapping, MappingConfig
+from block_wrangler.flags import Flag, IntFlag
 
 class TestMapping(unittest.TestCase):
 	def test_mapping(self):
@@ -12,10 +13,10 @@ class TestMapping(unittest.TestCase):
 		self.maxDiff = None
 		
 		mapping = BlockMapping.solve({
-			'A': _blocks({a, b, c}),
-			'B': _blocks({b, c, d}),
-			'C': _blocks({c, d, e})
-		}, start_index=1000)
+			'A': Flag(_blocks({a, b, c})),
+			'B': Flag(_blocks({b, c, d})),
+			'C': Flag(_blocks({c, d, e}))
+		}, MappingConfig(start_index=1000))
 		order_independent_mapping = {entry['flags']:entry['blocks'] for entry in mapping.mapping}
 		self.assertDictEqual(order_independent_mapping, {
 			frozenset(['A']): _blocks({a}),
@@ -33,9 +34,9 @@ class TestMapping(unittest.TestCase):
 		e: BlockType = BlockType('test', 'e', {})
 
 		self.assertRaises(ValueError, lambda:BlockMapping.solve({
-			'A': _blocks({a, b, c}),
-			'B': _blocks({b, c, d}),
-			'C': {i:_blocks({c, d, e}) for i in range(3)}
+			'A': Flag(_blocks({a, b, c})),
+			'B': Flag(_blocks({b, c, d})),
+			'C': IntFlag({i:_blocks({c, d, e}) for i in range(3)})
 		}))
 
 def _blocks(blocks:Iterable[BlockType]) -> Blocks:
