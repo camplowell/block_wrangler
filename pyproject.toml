@@ -1,9 +1,9 @@
 [build-system]
 requires = [
-	"setuptools", 
+	"hatchling", 
 	"twine"
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "hatchling.build"
 
 [project]
 name = "block_wrangler"
@@ -13,7 +13,7 @@ dependencies = [
 	"case-converter==1.1.0"
 ]
 description = "Use block features instead of block IDs! (for Minecraft shaderpacks)"
-dynamic = ["readme"]
+readme = "README.md"
 
 [project.urls]
 Homepage = "https://github.com/camplowell/block_wrangler"
@@ -21,10 +21,10 @@ Issues = "https://github.com/camplowell/block_wrangler/issues"
 
 [project.optional-dependencies]
 fuzzy_tags = ["rapidfuzz"]
-dev = ["block_wrangler[fuzzy_tags]", "Jinja2==3.1.4", "setuptools", "twine", "build"]
+dev = ["block_wrangler[fuzzy_tags]", "Jinja2==3.1.4", "twine", "build"]
 
-[tool.setuptools.packages.find]
+[tool.hatchling.packages.sdist]
 include = ["block_wrangler*"]
 
-[tool.setuptools.dynamic]
-readme = {file = ["README.md"], content-type = "text/markdown"}
+[tool.hatchling.packages.wheel]
+include = ["block_wrangler*"]
