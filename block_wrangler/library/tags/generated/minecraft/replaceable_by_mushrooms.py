@@ -3,36 +3,38 @@ from block_wrangler.library.factories import block_types
 
 
 def load_tags(library:TagLibrary):
-	tag = library.touch('minecraft:replaceable')
+	tag = library.touch('minecraft:replaceable_by_mushrooms')
+	tag.add(library.touch('minecraft:leaves'))
+	tag.add(library.touch('minecraft:small_flowers'))
 	
 	tag.add(block_types(
-		'minecraft:air',
-		'minecraft:bubble_column',
+		'minecraft:brown_mushroom',
+		'minecraft:brown_mushroom_block',
 		'minecraft:bush',
-		'minecraft:cave_air',
 		'minecraft:crimson_roots',
 		'minecraft:dead_bush',
 		'minecraft:fern',
-		'minecraft:fire',
+		'minecraft:firefly_bush',
 		'minecraft:glow_lichen',
 		'minecraft:hanging_roots',
 		'minecraft:large_fern',
-		'minecraft:lava',
 		'minecraft:leaf_litter',
-		'minecraft:light',
+		'minecraft:lilac',
 		'minecraft:nether_sprouts',
-		'minecraft:resin_clump',
+		'minecraft:pale_moss_carpet',
+		'minecraft:peony',
+		'minecraft:pitcher_plant',
+		'minecraft:red_mushroom',
+		'minecraft:red_mushroom_block',
+		'minecraft:rose_bush',
 		'minecraft:seagrass',
 		'minecraft:short_dry_grass',
 		'minecraft:short_grass',
-		'minecraft:snow',
-		'minecraft:soul_fire',
-		'minecraft:structure_void',
+		'minecraft:sunflower',
 		'minecraft:tall_dry_grass',
 		'minecraft:tall_grass',
 		'minecraft:tall_seagrass',
 		'minecraft:vine',
-		'minecraft:void_air',
 		'minecraft:warped_roots',
 		'minecraft:water',
 	strict=False))

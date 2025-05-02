@@ -9,6 +9,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:signs'))
 	
 	tag.add(block_types(
+		'minecraft:cactus_flower',
 		'minecraft:redstone_torch',
 		'minecraft:soul_torch',
 		'minecraft:torch',

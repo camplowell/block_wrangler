@@ -7,9 +7,11 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:glow_lichen',
+		'minecraft:leaf_litter',
 		'minecraft:lily_pad',
 		'minecraft:pink_petals',
 		'minecraft:powder_snow',
 		'minecraft:sculk_vein',
 		'minecraft:small_amethyst_bud',
+		'minecraft:wildflowers',
 	strict=False))

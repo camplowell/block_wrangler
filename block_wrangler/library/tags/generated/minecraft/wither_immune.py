@@ -19,4 +19,6 @@ def load_tags(library:TagLibrary):
 		'minecraft:reinforced_deepslate',
 		'minecraft:repeating_command_block',
 		'minecraft:structure_block',
+		'minecraft:test_block',
+		'minecraft:test_instance_block',
 	strict=False))

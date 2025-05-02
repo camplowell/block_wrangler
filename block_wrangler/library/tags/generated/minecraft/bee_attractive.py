@@ -9,6 +9,7 @@ def load_tags(library:TagLibrary):
 		'minecraft:allium',
 		'minecraft:azure_bluet',
 		'minecraft:blue_orchid',
+		'minecraft:cactus_flower',
 		'minecraft:cherry_leaves',
 		'minecraft:chorus_flower',
 		'minecraft:cornflower',
@@ -32,5 +33,6 @@ def load_tags(library:TagLibrary):
 		'minecraft:sunflower',
 		'minecraft:torchflower',
 		'minecraft:white_tulip',
+		'minecraft:wildflowers',
 		'minecraft:wither_rose',
 	strict=False))

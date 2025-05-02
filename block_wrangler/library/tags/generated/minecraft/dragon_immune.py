@@ -23,4 +23,6 @@ def load_tags(library:TagLibrary):
 		'minecraft:repeating_command_block',
 		'minecraft:respawn_anchor',
 		'minecraft:structure_block',
+		'minecraft:test_block',
+		'minecraft:test_instance_block',
 	strict=False))

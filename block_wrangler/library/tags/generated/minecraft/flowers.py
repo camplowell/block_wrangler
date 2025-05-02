@@ -8,6 +8,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:tall_flowers'))
 	
 	tag.add(block_types(
+		'minecraft:cactus_flower',
 		'minecraft:cherry_leaves',
 		'minecraft:chorus_flower',
 		'minecraft:flowering_azalea',
@@ -20,4 +21,5 @@ def load_tags(library:TagLibrary):
 		'minecraft:rose_bush',
 		'minecraft:spore_blossom',
 		'minecraft:sunflower',
+		'minecraft:wildflowers',
 	strict=False))

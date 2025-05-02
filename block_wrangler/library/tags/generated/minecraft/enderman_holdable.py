@@ -10,6 +10,7 @@ def load_tags(library:TagLibrary):
 	tag.add(block_types(
 		'minecraft:brown_mushroom',
 		'minecraft:cactus',
+		'minecraft:cactus_flower',
 		'minecraft:carved_pumpkin',
 		'minecraft:clay',
 		'minecraft:crimson_fungus',
