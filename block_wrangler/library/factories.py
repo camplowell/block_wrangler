@@ -27,7 +27,11 @@ def load_tags() -> _TagLibrary:
 	return result
 
 def blocks(*blocks:str|_BlockType, strict:bool=True) -> _BlockCollection:
-	"""Create a Blocks collection from the given blocks"""
+	"""Create a Blocks collection from the given blocks
+
+	Args:
+		strict (bool, optional): Raise an error if the block doesn't exist. Defaults to True.
+	"""
 	return _reduce(lambda acc, block: acc.union(block), (block for block_str in blocks if (block := _coerce_block(block_str, strict=strict)) is not None), _Blocks(dict()))
 
 def gather_blocks[T:_BlockState](type_filter:_tp.Callable[[_BlockType], bool] = _passthrough, signature:_tp.Type[T]=_BlockState, state_filter:_StateFilter=_filters.passthrough) -> _Blocks[T]:
