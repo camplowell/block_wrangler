@@ -7,13 +7,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "block_wrangler"
-version = "0.0.7"
 dependencies = [
 	"rich==13.7.1",
 	"case-converter==1.2.0"
 ]
 description = "Use block features instead of block IDs! (for Minecraft shaderpacks)"
 readme = "README.md"
+dynamic = ["version"]
 
 [project.urls]
 Homepage = "https://github.com/camplowell/block_wrangler"
@@ -28,3 +28,6 @@ include = ["block_wrangler*"]
 
 [tool.hatchling.packages.wheel]
 include = ["block_wrangler*"]
+
+[tool.hatch.version]
+path = "block_wrangler/__about__.py"
