@@ -142,6 +142,7 @@ def load_tags(library:TagLibrary):
 	
 	library.touch('lights/2') \
 		.add(block_types(
+			'minecraft:firefly_bush',
 			'minecraft:medium_amethyst_bud'
 		))
 	
