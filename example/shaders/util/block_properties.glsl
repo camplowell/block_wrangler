@@ -11,62 +11,67 @@ const Sway Sway_FULL = Sway(3);
 const Sway Sway_FLOATING = Sway(4);
 const Sway Sway_HANGING = Sway(5);
 Sway SwayType(int id) {
-	if (id == 28 || id == 33)
+	if (id == 1019 || id == 1024)
 		return Sway_TOP;
-	if (id == 27 || id == 32)
+	if (id == 1018 || id == 1023)
 		return Sway_BOTTOM;
-	if (id == 31)
+	if (id == 1022 || id == DH_BLOCK_LEAVES)
 		return Sway_FULL;
-	if (id == 30)
+	if (id == 1021)
 		return Sway_FLOATING;
-	if (id == 11 || id == 29)
+	if (id == 1002 || id == 1020)
 		return Sway_HANGING;
 	return Sway_NONE;
 }
 
 
 bool IsCrops(int id) {
-	return id == 27 || id == 28;
+	return id == 1018 || id == 1019;
 }
 
 
 bool IsWater(int id) {
-	return id == 26;
+	return id == 1017 || id == DH_BLOCK_WATER;
 }
 
 
 int GetEmissivity(int id) {
-	if (id == 25)
+	if (id == 1016)
 		return 1;
-	if (id == 24)
+	if (id == 1015)
 		return 2;
-	if (id == 23)
+	if (id == 1014)
 		return 3;
-	if (id == 22)
+	if (id == 1013)
 		return 4;
-	if (id == 21)
+	if (id == 1012)
 		return 5;
-	if (id == 20)
+	if (id == 1011)
 		return 6;
-	if (id == 19)
+	if (id == 1010)
 		return 7;
-	if (id == 18)
+	if (id == 1009)
 		return 8;
-	if (id == 17)
+	if (id == 1008)
 		return 9;
-	if (id == 16)
+	if (id == 1007)
 		return 10;
-	if (id == 15)
+	if (id == 1006)
 		return 11;
-	if (id == 14)
+	if (id == 1005)
 		return 12;
-	if (id == 13)
+	if (id == 1004)
 		return 13;
-	if (id == 12)
+	if (id == 1003)
 		return 14;
-	if (id == 10 || id == 11)
+	if (id == 1001 || id == 1002)
 		return 15;
 	return 0;
+}
+
+
+bool IsEmissive(int id) {
+	return id == 1000 || id == 1001 || id == 1002 || id == 1003 || id == 1004 || id == 1005 || id == 1006 || id == 1007 || id == 1008 || id == 1009 || id == 1010 || id == 1011 || id == 1012 || id == 1013 || id == 1014 || id == 1015 || id == 1016 || id == DH_BLOCK_LAVA || id == DH_BLOCK_ILLUMINATED;
 }
 
 
