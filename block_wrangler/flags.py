@@ -1,9 +1,11 @@
-
+from __future__ import annotations
 from abc import ABC
-from dataclasses import dataclass, field
+from dataclasses import field
 from decimal import Decimal
 from caseconverter import pascalcase, macrocase
 from typing import Any, Callable, Generator, Literal, TypedDict
+
+from block_wrangler.library.blocks.distant_horizons import DHMaterial
 
 from .block_collections import BlockCollection as _BlockCollection, Blocks as _Blocks
 from .config import Configuration
@@ -31,20 +33,25 @@ class IFlag(ABC):
 	def render_decoder(self, flag:str, mapping:list[MapEntry], config:MappingConfig) -> Generator[str, Any, None]: ...
 	
 	@classmethod
-	def check_id(cls, flag:str, mapping:list[MapEntry]):
-		return ' || '.join(f'id == {entry["id"]}' for entry in mapping if flag in entry['flags'])
+	def check_id(cls, flag:str, mapping:list[MapEntry], dh_materials: DHMaterial):
+		possibilities = [f'id == {entry["id"]}' for entry in mapping if flag in entry['flags']]
+		possibilities.extend([f'id == {mask.name}' for mask in dh_materials])
+		return ' || '.join(possibilities)
 	
 	def expand_flags(self, flag:str) -> dict[str, _BlockCollection]: ...
 
 class Flag(IFlag):
 	class Config(Configuration):
 		function_name:Callable[[str], str] = lambda flag: f"Is{pascalcase(flag)}"
-		def __call__(self, values:_BlockCollection, **kwargs):
-			return Flag(values, self | kwargs)
+
+		def __call__(self, values:_BlockCollection, dh_materials: DHMaterial = DHMaterial.DH_NONE, **kwargs):
+			return Flag(values, dh_materials, config=self | kwargs)
 		
-	def __init__(self, values:_BlockCollection, config:Configuration = Config()):
+	def __init__(self, values:_BlockCollection, dh_materials: DHMaterial = DHMaterial.DH_NONE, * , config:Configuration = Config()):
 		self.values = values
 		self.config = self.Config() | config
+		self.dh_materials = dh_materials
+
 
 	def function_decl(self, return_type:str, flag:str, config:MappingConfig) -> str:
 		function_name = self.config.function_name(flag)
@@ -52,7 +59,7 @@ class Flag(IFlag):
 	
 	def render_decoder(self, flag:str, mapping:list[MapEntry], config:MappingConfig):
 		yield self.function_decl('bool', flag, config)
-		yield f"\treturn {self.check_id(flag, mapping)};"
+		yield f"\treturn {self.check_id(flag, mapping, self.dh_materials)};"
 		yield "}"
 
 	def expand_flags(self, flag:str) -> dict[str, _BlockCollection]:
@@ -63,8 +70,9 @@ class FlagSequence[T](IFlag, ABC):
 		function_name:Callable[[str], str] = lambda flag: f"Get{pascalcase(flag)}"
 		"""The name of the function to retrieve the type of a sequence flag"""
 	
-	def __init__(self, contents:dict[T, _BlockCollection], default:T, config:Configuration):
-		self.contents = contents
+	def __init__(self, contents:dict[T, _BlockCollection|tuple[_BlockCollection, DHMaterial]], default:T, * , config:Config):
+		self.contents = {k:v[0] if isinstance(v, tuple) else v for k, v in contents.items()}
+		self.dh_materialss = {k:v[1] if isinstance(v, tuple) else DHMaterial.DH_NONE for k, v in contents.items()}
 		self.default = default
 		self.config = self.Config() | config
 
@@ -94,7 +102,8 @@ class FlagSequence[T](IFlag, ABC):
 		yield self.function_decl(self.return_type, parent_flag, config)
 		for i, value in enumerate(self.contents.keys()):
 			flag = self.subflag(parent_flag, i, value)
-			yield f"\tif ({self.check_id(flag, mapping)})"
+			dh_materials = self.dh_materialss[value]
+			yield f"\tif ({self.check_id(flag, mapping, dh_materials)})"
 			yield f"\t\treturn {self.render_value(value, )};"
 		yield f"\treturn {self.render_value(self.default, )};"
 		yield "}"
@@ -115,19 +124,16 @@ class FlagSequence[T](IFlag, ABC):
 
 class IntFlag(FlagSequence[int]):
 	class Config(FlagSequence.Config):
-		def __call__(self, contents:dict[int, _BlockCollection], default:int=0, **kwargs):
-			return IntFlag(contents, default, self | kwargs)
-	def __init__(self, contents:dict[int, _BlockCollection], default:int = 0, config:FlagSequence.Config = FlagSequence.Config()):
-		super().__init__(contents, default, config)
+		def __call__(self, contents:dict[int, _BlockCollection|tuple[_BlockCollection, DHMaterial]], default:int=0, **kwargs):
+			return IntFlag(contents, default, config=self | kwargs)
 	
 	@property
 	def return_type(self) -> str: return 'int'
 
 class FloatFlag(FlagSequence[float|Decimal]):
-	@dataclass
 	class Config(FlagSequence.Config):
-		def __call__(self, contents:dict[float|Decimal, _BlockCollection], default:float|Decimal=0.0, **kwargs):
-			return FloatFlag(contents, default, self | kwargs)
+		def __call__(self, contents:dict[float|Decimal, _BlockCollection|tuple[_BlockCollection, DHMaterial]], default:float|Decimal=0.0, **kwargs):
+			return FloatFlag(contents, default, config=self | kwargs)
 	@property
 	def return_type(self) -> str: return 'float'
 
@@ -142,12 +148,10 @@ class EnumFlag(FlagSequence[str]):
 		type_safety:bool = True
 		"""Use a struct to ensure type safety; requires #version 130 or higher"""
 
-		def __call__(self, contents:dict[str, _BlockCollection], default:str = 'NONE', **kwargs):
-			return EnumFlag(contents, default, self | kwargs)
-	
-	def __init__(self, contents:dict[str, _BlockCollection], default:str = 'NONE', config:Configuration = Config()):
-		super().__init__(contents, default, config)
-		self.config = self.Config() | config
+		def __call__(self, contents:dict[str, _BlockCollection | tuple[_BlockCollection, DHMaterial]], default:str = 'NONE', **kwargs):
+			return EnumFlag(contents, default, config=self | kwargs)
+		
+	config: Config
 	
 	@property
 	def return_type(self) -> str: 
