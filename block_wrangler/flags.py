@@ -70,7 +70,9 @@ class FlagSequence[T](IFlag, ABC):
 		function_name:Callable[[str], str] = lambda flag: f"Get{pascalcase(flag)}"
 		"""The name of the function to retrieve the type of a sequence flag"""
 	
-	def __init__(self, contents:dict[T, _BlockCollection|tuple[_BlockCollection, DHMaterial]], default:T, * , config:Config):
+	def __init__(self, contents:dict[T, _BlockCollection|tuple[_BlockCollection, DHMaterial]], default:T, * , config:Config|None = None):
+		if config is None:
+			config = self.__class__.Config()
 		self.contents = {k:v[0] if isinstance(v, tuple) else v for k, v in contents.items()}
 		self.dh_materialss = {k:v[1] if isinstance(v, tuple) else DHMaterial.DH_NONE for k, v in contents.items()}
 		self.default = default
