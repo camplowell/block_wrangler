@@ -5,7 +5,7 @@ from decimal import Decimal
 from caseconverter import pascalcase, macrocase
 from typing import Any, Callable, Generator, Literal, TypedDict
 
-from block_wrangler.library.blocks.distant_horizons import DHMaterial
+from block_wrangler.distant_horizons import DHMaterial
 
 from .block_collections import BlockCollection as _BlockCollection, Blocks as _Blocks
 from .config import Configuration
