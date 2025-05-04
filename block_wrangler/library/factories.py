@@ -7,18 +7,21 @@ from itertools import chain as _chain
 from block_wrangler.tag import TagLibrary as _TagLibrary
 from block_wrangler.block_type import BlockType as _BlockType, BlockState as _BlockState
 from block_wrangler.block_collections import Blocks as _Blocks, BlockCollection as _BlockCollection, BlockFamily as _BlockFamily
-from block_wrangler._rich_log import getLogger as _getLogger
+
 from block_wrangler.filters import StateFilter as _StateFilter, passthrough as _passthrough
 from block_wrangler import filters as _filters
 
 from . import blocks as _blocks, tags as _tags
 
-_log = _getLogger(__name__)
+def _logger():
+	from block_wrangler._rich_log import getLogger
+	return getLogger(__name__)
+	
 _blocks_cache:_tp.Dict[str, _tp.Dict[str, _BlockType]] = dict()
 
 def load_tags() -> _TagLibrary:
 	"""Returns a TagLibrary containing a collection of Vanilla and other common tags"""
-	_log.verbose('Loading tags')
+	_logger().verbose('Loading tags')
 	result = _TagLibrary()
 	for module_name in (module.name for module in _walk_packages(_tags.__path__, f"{_tags.__name__}.")):
 		module = _import_module(module_name)
@@ -55,7 +58,7 @@ def register_block_type(block:_BlockType) -> None:
 	if block.name in namespace_contents:
 		if block == namespace_contents[block.name]:
 			return
-		_log.warning(f'Overwriting block {block.path}')
+		_logger().warning(f'Overwriting block {block.path}')
 	namespace_contents[block.name] = block
 
 @_cache

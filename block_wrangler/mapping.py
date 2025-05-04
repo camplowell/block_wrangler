@@ -1,13 +1,11 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import re
-from typing import Dict, List, Literal, TypedDict
-from rich.progress import Progress, TaskID
+from typing import Dict, List, TypedDict
 from itertools import accumulate, chain
 
 from .block_collections import BlockCollection as _BlockCollection, Blocks as _Blocks
-from .config import Configuration
-from .progress_sync import ProgressSync
+from .progress_sync import DummyProgress, ProgressSync
 
 FlagSet = Dict[int, _BlockCollection]|Dict[float, _BlockCollection]|Dict[str, _BlockCollection]
 
@@ -28,17 +26,15 @@ class BlockMapping:
 	@staticmethod
 	def solve(
 		flags:Dict[str, IFlag], 
-		config:MappingConfig = MappingConfig()
+		config:MappingConfig = MappingConfig(),
+		show_progress: bool = True
 	) -> BlockMapping:
 		"""Solve for a set of IDs that can be used to check if a block is in the specified categories
 		
-		Flag types:
-		- Blocks: Produces the method `bool flag(int id)` that returns true if the block is in the given collection
-		- Dict[int, Blocks]: Produces the method `int flag(int id)` that returns the key of the collection that the block is in, or 0 if the block is not in any of them.
-		- Dict[float, Blocks]: Produces the method `float flag(int id)` that returns the key of the collection that the block is in, or 0.0 if the block is not in any of them.
-
 		Args:
 			flags: A dictionary of flag names to collections of blocks
+			config: Settings for how to configure the mapping
+			show_progress: Use Rich to show a progress bar
 			start_index: The first index to use for the block IDs
 			pragma: The define used to prevent double-inclusion
 			defines: A dictionary of defines to add to the generated code (useful for enum-like flags)
@@ -55,7 +51,17 @@ class BlockMapping:
 		
 		mapping:Dict[frozenset[str], _BlockCollection] = dict()
 		expected_lengths = [*accumulate(range(len(bflags)), lambda x, _: 2 * x + 1, initial=0)]
-		with Progress(transient=True) as progress:
+
+		if show_progress:
+			try:
+				from rich.progress import Progress
+				init_progress = Progress
+			except ImportError:
+				init_progress = DummyProgress
+		else:
+			init_progress = DummyProgress
+			
+		with init_progress(transient=True) as progress:
 			global_task = progress.add_task(total = sum(expected_lengths), description="Solving flag combinations")
 			for index, (new_flag, new_values) in enumerate(bflags.items()):
 				subtask = progress.add_task(total=expected_lengths[index], description=f"Adding {new_flag} ({index + 1} / {len(bflags)})")

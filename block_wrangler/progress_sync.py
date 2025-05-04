@@ -1,17 +1,40 @@
-from typing import Iterable
-from rich.progress import Progress, TaskID
+from __future__ import annotations
+from typing import Iterable, TYPE_CHECKING, Iterator
+
+if TYPE_CHECKING:
+	from rich.progress import Progress, TaskID
+
+class DummyTaskID: pass
+
+class DummyProgress:
+	def __init__(self, *args, **kwargs): pass
+	
+	def __enter__(self):
+		return self
+
+	def __exit__(self, *args, **kwargs):
+		pass
+	
+	if TYPE_CHECKING:
+		def add_task(self, *args, **kwargs) -> 'TaskID': ...
+	else:
+		def add_task(self, *args, **kwargs): return DummyTaskID()
+		
+	def update(self, *args, **kwargs): pass
+	def remove_task(self, task): pass
 
 
-class ProgressSync[T]:
+class ProgressSync[T](Iterator[T]):
 	"""An iterator wrapper that updates one or more progress bars at the same time as iterating"""
-	def __init__(self, wrapped:Iterable[T], progress:Progress, *tasks:TaskID, step:int=1):
+	def __init__(self, wrapped:Iterable[T], progress:Progress|DummyProgress, *tasks:TaskID|DummyTaskID, step:int=1):
 		self._wrapped = iter(wrapped)
 		self._progress = progress
-		self._tasks = tasks
+		self._tasks = [task for task in tasks if not isinstance(task, DummyTaskID)]
 		self._step = step
-	
-	def __iter__(self):
-		return self
+		
+		if isinstance(progress, DummyProgress):
+			def __next__(): return next(self._wrapped)
+			self.__next__ = __next__
 	
 	def __next__(self):
 		ret = next(self._wrapped)

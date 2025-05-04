@@ -1,8 +1,6 @@
 import logging
-from rich.logging import RichHandler
 
 from typing import TYPE_CHECKING, Mapping, cast
-
 
 class RichLogger(logging.Logger):
 	VERBOSE = (logging.INFO + logging.DEBUG) // 2
@@ -30,9 +28,13 @@ logging.addLevelName(RichLogger.VERBOSE, "VERBOSE")
 logging.setLoggerClass(RichLogger)
 
 FORMAT = "%(message)s"
-logging.basicConfig(
-	format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
-)
+
+try:
+    from rich.logging import RichHandler
+    logging.basicConfig(
+        format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+    )
+except ImportError: pass
 
 def getLogger(name:str | None = 'block_wrangler'):
 	"""Return a logger with the specified name, creating it if necessary.
