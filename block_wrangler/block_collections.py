@@ -1,3 +1,4 @@
+from __future__ import annotations
 from collections import Counter
 from itertools import chain
 from typing import AbstractSet, Collection, Iterator, Protocol, Dict, Iterable, Set, Tuple, cast, overload, runtime_checkable
@@ -54,7 +55,11 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 
 	def union(self, other:'BlockCollection') -> 'BlockCollection': 
 		"""Create a new BlockCollection that contains all the blocks in this collection and the other collection"""
-		return Blocks({block:states for block in self.blocks() | other.blocks() if (states := self._get_raw(block, set()) | other._get_raw(block, set()))}, _skip_check=True)
+		try:
+			return Blocks({block:states for block in self.blocks() | other.blocks() if (states := self._get_raw(block, set()) | other._get_raw(block, set()))}, _skip_check=True)
+		except TypeError:
+			print(f'{type(self).__name__} + {type(other).__name__}')
+			raise
 
 	def difference(self, other:'BlockCollection') -> 'BlockCollection':
 		"""Create a new BlockCollection that contains all the blocks in this collection but not the other collection"""
@@ -102,15 +107,16 @@ class Blocks[T:BlockState](BlockCollection[T]):
 	"""A collection of concrete block states, optionally with a common signature"""
 	_blocks: Dict[BlockType, States]
 
-	def __init__(self, blocks:Dict[BlockType, Iterable[Tuple[int, ...]]]|Dict[BlockType, States], / , filter:StateFilter[T] = passthrough, * , signature:type[T] = BlockState, _skip_check:bool = False) -> None:
+	def __init__(self, blocks:BlockCollection|Dict[BlockType, Iterable[Tuple[int, ...]]]|Dict[BlockType, States], / , filter:StateFilter[T] = passthrough, * , signature:type[T] = BlockState, _skip_check:bool = False) -> None:
 		"""A collection of concrete block states, optionally with a common signature"""
+		if isinstance(blocks, BlockCollection):
+			blocks = {b:blocks._get_raw(b) for b in blocks.blocks()}
 		if _skip_check and filter is passthrough: # Fast path for internal use
 			if blocks:
 				assert all(isinstance(val, set) for val in blocks.values())
-			blocks = cast(Dict[BlockType, States], blocks)
-			self._blocks = blocks
-			return
-		
+				blocks = cast(Dict[BlockType, States], blocks)
+				self._blocks = blocks
+				return
 		if _skip_check or signature is BlockState:
 			get_states = _filter_states
 		else:

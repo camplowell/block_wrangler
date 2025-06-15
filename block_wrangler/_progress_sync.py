@@ -23,7 +23,6 @@ class DummyProgress:
 	def update(self, *args, **kwargs): pass
 	def remove_task(self, task): pass
 
-
 class ProgressSync[T](Iterator[T]):
 	"""An iterator wrapper that updates one or more progress bars at the same time as iterating"""
 	def __init__(self, wrapped:Iterable[T], progress:Progress|DummyProgress, *tasks:TaskID|DummyTaskID, step:int=1):
