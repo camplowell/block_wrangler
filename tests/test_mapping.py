@@ -19,11 +19,11 @@ class TestMapping(unittest.TestCase):
 		}, MappingConfig(start_index=1000))
 		order_independent_mapping = {entry['flags']:entry['blocks'] for entry in mapping.mapping}
 		self.assertDictEqual(order_independent_mapping, {
-			frozenset(['A']): _blocks({a}),
-			frozenset(['A', 'B']): _blocks({b}),
-			frozenset(['A', 'B', 'C']): _blocks({c}),
-			frozenset(['B', 'C']): _blocks({d}),
-			frozenset(['C']): _blocks({e}),
+			frozenset([('A', True)]): _blocks({a}),
+			frozenset([('A', True), ('B', True)]): _blocks({b}),
+			frozenset([('A', True), ('B', True), ('C', True)]): _blocks({c}),
+			frozenset([('B', True), ('C', True)]): _blocks({d}),
+			frozenset([('C', True)]): _blocks({e}),
 		})
 	
 	def test_sequential_mapping_overlap(self):
