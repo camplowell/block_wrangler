@@ -8,8 +8,6 @@ from .block_collections import BlockCollection as _BlockCollection, Blocks as _B
 from .config import Configuration
 from .distant_horizons import DHMaterial
 
-MapEntry = TypedDict('MapEntry', {'id':int, 'flags':frozenset[str|tuple[str, Any]], 'blocks':_BlockCollection})
-
 class BaseTypedDict(TypedDict, total=False): pass
 
 class IFlag[C: BaseTypedDict](ABC):
@@ -58,16 +56,6 @@ class Flag(IFlag[FlagConfig]):
 	config: FlagConfig = {
 		'function_name': lambda s: f"is{pascalcase(s)}"
 	}
-
-	@classmethod
-	def Conf(cls, **defaults: Unpack[FlagConfig]):
-		"""Create an alternate constructor with different default values
-		Args:
-			function_name (Callable[[str], str], optional): The name of the GLSL decoder function
-		"""
-		def create(values: _BlockCollection, materials: DHMaterial, **kwargs: Unpack[FlagConfig]):
-			return cls(values, materials, **(defaults | kwargs))
-		return create
 	
 	def renderer(self, name: str):
 		return BoolFlagRenderer(
@@ -75,6 +63,20 @@ class Flag(IFlag[FlagConfig]):
 			blocks=self.values,
 			dh_materials=self.materials
 		)
+	
+	@classmethod
+	def Config(cls, **defaults: Unpack[FlagConfig]):
+		"""Create an alternate constructor with different default values
+		Args:
+			default_value (int, optional): The default value for non-matches
+			function_name (Callable[[str], str], optional): The name of the GLSL decoder function
+		"""
+		def create(
+				values: _BlockCollection,
+				materials: DHMaterial = DHMaterial.DH_NONE,
+				**kwargs: Unpack[SequenceConfig[int]]):
+			return cls(values, materials, **(defaults | kwargs))
+		return create
 
 type FlagMapping[T] = dict[T, _BlockCollection|tuple[_BlockCollection, DHMaterial]]
 
@@ -92,8 +94,19 @@ class FlagSequence[T, C: SequenceConfig](IFlag[C]):
 				raise ValueError(f"Flag value {self.display_value(key)} has blocks seen in a previous value:\n{sequence_full.intersection(blocks).render()}")
 			sequence_full = next_full
 		super().__init__(config)
+	
+	@classmethod
+	def Config(cls, **defaults: Unpack[SequenceConfig[T]]):
+		"""Create an alternate constructor with different default values
+		Args:
+			default_value (int, optional): The default value for non-matches
+			function_name (Callable[[str], str], optional): The name of the GLSL decoder function
+		"""
+		def create(values: FlagMapping[int], **kwargs: Unpack[SequenceConfig[int]]):
+			return cls(values, **(defaults | kwargs))
+		return create
 
-	def value_name(self, val: T) -> str: return str(val)
+	def value_name(self, val: T, flag: str) -> str: return str(val)
 	def display_value(self, val: T) -> str: return str(val)
 
 	def return_type(self, flag: str) -> str: ...
@@ -117,13 +130,13 @@ class FlagSequence[T, C: SequenceConfig](IFlag[C]):
 			value_info={
 				k:ValueInfo(
 					v[1] if isinstance(v, tuple) else DHMaterial.DH_NONE,
-					glsl_value=self.value_name(k),
+					glsl_value=self.value_name(k, flag),
 					display_value=self.display_value(k)
 				)
 				for k,v in self.values.items()
             },
-			default_value=self.value_name(self.config['default_value']),
-			fn_decl=f'{self.return_type} {fn_name}',
+			default_value=self.value_name(self.config['default_value'], flag),
+			fn_decl=f'{self.return_type(flag)} {fn_name}',
 			fn_prefix=self.fn_prefix(flag),
 			fn_suffix=self.fn_suffix(flag)
 		)
@@ -151,7 +164,7 @@ class IntFlag(FlagSequence[int, SequenceConfig[int]]):
 	def return_type(self, flag: str): return 'int'
 
 	@classmethod
-	def Conf(cls, **defaults: Unpack[SequenceConfig[int]]):
+	def Config(cls, **defaults: Unpack[SequenceConfig[int]]):
 		"""Create an alternate constructor with different default values
 		Args:
 			default_value (int, optional): The default value for non-matches
@@ -193,7 +206,7 @@ class FloatFlag(FlagSequence[float, FloatFlagConfig]):
 		return self.config['format'](val)
 
 	@classmethod
-	def Conf(cls, **defaults: Unpack[FloatFlagConfig]):
+	def Config(cls, **defaults: Unpack[FloatFlagConfig]):
 		"""Create an alternate constructor with different default values
 		Args:
 			default_value (float, optional): The default value for non-matches
@@ -236,8 +249,23 @@ class EnumFlag(FlagSequence[str, EnumFlagConfig]):
 	
 	def display_value(self, val: str) -> str: return val
 
+	def fn_prefix(self, flag: str) -> str:
+		from caseconverter import pascalcase, macrocase
+		sname = pascalcase(flag)
+		return '\n'.join([
+			f"struct {sname}Values {{",
+			f"\tint {self.config['default_value']}",
+			*[f"\tint {macrocase(name)};" for name in self.values.keys()],
+			"};",
+			f"const {sname}Values {sname} = {sname}Values({', '.join(str(i) for i in range(len(self.values) + 1))})"
+		])
+	
+	def value_name(self, val: str, flag: str):
+		from caseconverter import pascalcase, macrocase
+		return f"{pascalcase(flag)}.{macrocase(val)}"
+
 	@classmethod
-	def Conf(cls, **defaults: Unpack[EnumFlagConfig]):
+	def Config(cls, **defaults: Unpack[EnumFlagConfig]):
 		"""Create an alternate constructor with different default values
 		Args:
 			default_value (str, optional): The default value for non-matches
