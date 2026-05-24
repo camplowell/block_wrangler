@@ -8,6 +8,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:base_stone_overworld'))
 	tag.add(library.touch('minecraft:dirt'))
 	tag.add(library.touch('minecraft:nylium'))
+	tag.add(library.touch('minecraft:substrate_overworld'))
 	tag.add(library.touch('minecraft:wart_blocks'))
 	
 	tag.add(block_types(

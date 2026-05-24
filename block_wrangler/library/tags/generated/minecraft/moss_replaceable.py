@@ -6,4 +6,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:base_stone_overworld'))
 	tag.add(library.touch('minecraft:cave_vines'))
 	tag.add(library.touch('minecraft:dirt'))
+	tag.add(library.touch('minecraft:grass_blocks'))
+	tag.add(library.touch('minecraft:moss_blocks'))
+	tag.add(library.touch('minecraft:mud'))
 	

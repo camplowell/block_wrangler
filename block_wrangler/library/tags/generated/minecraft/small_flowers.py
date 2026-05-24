@@ -12,6 +12,7 @@ def load_tags(library:TagLibrary):
 		'minecraft:closed_eyeblossom',
 		'minecraft:cornflower',
 		'minecraft:dandelion',
+		'minecraft:golden_dandelion',
 		'minecraft:lily_of_the_valley',
 		'minecraft:open_eyeblossom',
 		'minecraft:orange_tulip',

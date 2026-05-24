@@ -10,6 +10,7 @@ def load_tags(library:TagLibrary):
 	
 	tag.add(block_types(
 		'minecraft:cactus_flower',
+		'minecraft:copper_torch',
 		'minecraft:redstone_torch',
 		'minecraft:soul_torch',
 		'minecraft:torch',

@@ -5,6 +5,9 @@ from block_wrangler.library.factories import block_types
 def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:enderman_holdable')
 	tag.add(library.touch('minecraft:dirt'))
+	tag.add(library.touch('minecraft:grass_blocks'))
+	tag.add(library.touch('minecraft:moss_blocks'))
+	tag.add(library.touch('minecraft:mud'))
 	tag.add(library.touch('minecraft:small_flowers'))
 	
 	tag.add(block_types(

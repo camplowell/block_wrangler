@@ -16,6 +16,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:wooden_doors'))
 	tag.add(library.touch('minecraft:wooden_fences'))
 	tag.add(library.touch('minecraft:wooden_pressure_plates'))
+	tag.add(library.touch('minecraft:wooden_shelves'))
 	tag.add(library.touch('minecraft:wooden_slabs'))
 	tag.add(library.touch('minecraft:wooden_stairs'))
 	tag.add(library.touch('minecraft:wooden_trapdoors'))

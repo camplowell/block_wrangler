@@ -31,3 +31,16 @@ include = ["block_wrangler*"]
 
 [tool.hatch.version]
 path = "block_wrangler/__about__.py"
+
+[tool.uv.workspace]
+members = [
+    ".",
+]
+
+[tool.uv.sources]
+block-wrangler = { workspace = true, editable = true }
+
+[dependency-groups]
+dev = [
+    "block-wrangler[dev]",
+]

@@ -6,6 +6,7 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:impermeable')
 	
 	tag.add(block_types(
+		'minecraft:barrier',
 		'minecraft:black_stained_glass',
 		'minecraft:blue_stained_glass',
 		'minecraft:brown_stained_glass',

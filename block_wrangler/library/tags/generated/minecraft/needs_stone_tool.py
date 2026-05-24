@@ -4,6 +4,8 @@ from block_wrangler.library.factories import block_types
 
 def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:needs_stone_tool')
+	tag.add(library.touch('minecraft:copper_chests'))
+	tag.add(library.touch('minecraft:lightning_rods'))
 	
 	tag.add(block_types(
 		'minecraft:chiseled_copper',

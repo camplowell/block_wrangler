@@ -6,6 +6,7 @@ def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:azalea_root_replaceable')
 	tag.add(library.touch('minecraft:base_stone_overworld'))
 	tag.add(library.touch('minecraft:dirt'))
+	tag.add(library.touch('minecraft:substrate_overworld'))
 	tag.add(library.touch('minecraft:terracotta'))
 	
 	tag.add(block_types(

@@ -10,6 +10,7 @@ def load_tags(library:TagLibrary):
 	tag.add(library.touch('minecraft:iron_ores'))
 	tag.add(library.touch('minecraft:sand'))
 	tag.add(library.touch('minecraft:snow'))
+	tag.add(library.touch('minecraft:substrate_overworld'))
 	tag.add(library.touch('minecraft:terracotta'))
 	
 	tag.add(block_types(

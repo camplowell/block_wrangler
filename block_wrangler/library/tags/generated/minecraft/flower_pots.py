@@ -26,6 +26,7 @@ def load_tags(library:TagLibrary):
 		'minecraft:potted_dead_bush',
 		'minecraft:potted_fern',
 		'minecraft:potted_flowering_azalea_bush',
+		'minecraft:potted_golden_dandelion',
 		'minecraft:potted_jungle_sapling',
 		'minecraft:potted_lily_of_the_valley',
 		'minecraft:potted_mangrove_propagule',

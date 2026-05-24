@@ -4,6 +4,7 @@ from block_wrangler.library.factories import block_types
 
 def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:guarded_by_piglins')
+	tag.add(library.touch('minecraft:copper_chests'))
 	tag.add(library.touch('minecraft:gold_ores'))
 	tag.add(library.touch('minecraft:shulker_boxes'))
 	

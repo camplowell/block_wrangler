@@ -5,7 +5,13 @@ from block_wrangler.library.factories import block_types
 def load_tags(library:TagLibrary):
 	tag = library.touch('minecraft:mineable/pickaxe')
 	tag.add(library.touch('minecraft:anvil'))
+	tag.add(library.touch('minecraft:bars'))
 	tag.add(library.touch('minecraft:cauldrons'))
+	tag.add(library.touch('minecraft:chains'))
+	tag.add(library.touch('minecraft:copper_chests'))
+	tag.add(library.touch('minecraft:copper_golem_statues'))
+	tag.add(library.touch('minecraft:lanterns'))
+	tag.add(library.touch('minecraft:lightning_rods'))
 	tag.add(library.touch('minecraft:rails'))
 	tag.add(library.touch('minecraft:shulker_boxes'))
 	tag.add(library.touch('minecraft:stone_buttons'))

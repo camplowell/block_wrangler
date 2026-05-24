@@ -40,13 +40,18 @@ def import_tags(folder:str, namespace:str, *path:str):
 
 def import_mc_data(folder:str):
 	mcdata_root = Path(folder).resolve()
+	print(f"Importing with root={folder}")
 	if (reports := mcdata_root.joinpath('reports')).exists():
 		import_blocks(str(reports.joinpath('blocks.json')), BlockParser.VANILLA)
+	else:
+	    print("Folder 'reports/' does not exist")
 	if (data := mcdata_root.joinpath('data')).exists():
 		for namespace in data.iterdir():
 			if namespace.stem.startswith('.'):
 				continue
 			import_tags(str(namespace.joinpath('tags/block')), namespace.stem)
+	else:
+	    print("Folder 'data/' does not exist")
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers()
