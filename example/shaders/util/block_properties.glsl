@@ -11,7 +11,7 @@ struct SwayValues {
 	int HANGING;
 };
 const SwayValues Sway = SwayValues(0, 1, 2, 3, 4, 5);
-Sway SwayType(int id) {
+int SwayType(int id) {
     if (id == 1000 || id == 1005) {
         return Sway.TOP;
     } else if (id == 1001 || id == 1006) {
