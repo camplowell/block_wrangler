@@ -50,7 +50,8 @@ class BlockCollection[T:BlockState](Collection[T], Protocol):
 		return default
 	
 	def render(self) -> str:
-		return ' '.join(_render_block(block, self._get_raw(block)) for block in self.blocks())
+		blocks = sorted([_render_block(block, self._get_raw(block)) for block in self.blocks()])
+		return ' '.join(blocks)
 
 
 	def union(self, other:'BlockCollection') -> 'BlockCollection': 
