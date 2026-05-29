@@ -254,10 +254,10 @@ class EnumFlag(FlagSequence[str, EnumFlagConfig]):
 		sname = pascalcase(flag)
 		return '\n'.join([
 			f"struct {sname}Values {{",
-			f"\tint {self.config['default_value']}",
+			f"\tint {self.config['default_value']};",
 			*[f"\tint {macrocase(name)};" for name in self.values.keys()],
 			"};",
-			f"const {sname}Values {sname} = {sname}Values({', '.join(str(i) for i in range(len(self.values) + 1))})"
+			f"const {sname}Values {sname} = {sname}Values({', '.join(str(i) for i in range(len(self.values) + 1))});"
 		])
 	
 	def value_name(self, val: str, flag: str):
