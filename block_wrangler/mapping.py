@@ -149,7 +149,7 @@ class BlockMapping:
         ]
 
         for entry in self.mapping:
-            flags = [flag[0] if (flag[1] is True) else (flag[0] + '=' + str(flag[1])) for flag in entry["flags"]]
+            flags = sorted([flag[0] if (flag[1] is True) else (flag[0] + '=' + str(flag[1])) for flag in entry["flags"]])
             lines.append(f"# {', '.join(flags)}")
             lines.append(f"block.{entry['id']} = {entry['blocks'].render()}")
             lines.append("")
@@ -182,4 +182,3 @@ class BlockMapping:
 
         lines.append(f"#endif // {self.config.pragma}")
         return "\n".join(lines)
-
