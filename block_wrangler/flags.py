@@ -243,8 +243,6 @@ class EnumFlag(FlagSequence[str, EnumFlagConfig]):
 	}
 
 	def return_type(self, flag: str):
-		if name_fn := self.config.get('enum_name'):
-			return name_fn(flag)
 		return 'int'
 	
 	def display_value(self, val: str) -> str: return val
@@ -351,4 +349,3 @@ class MappingConfig(Configuration):
 		logger = getLogger()
 		if self.start_index < 16:
 			logger.warning("Block ID start index should be 16 or more to avoid collisions with DH material IDs")
-
